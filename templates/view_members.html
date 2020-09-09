@@ -1,0 +1,42 @@
+{% extends "user_layout.html" %}
+{% block body%}
+
+<div class="card table-cards">
+  <div class="card-body">
+    <!-- Table to show memebers -->
+    <table class="MyViewTables">
+      <thead>
+        <tr>
+          <th scope="col">Member Id</th>
+          <th scope="col">Member Name</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Email</th>
+          <th scope="col">Discount Given</th>
+          <th scope="col">Membership Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop to show all members in tables -->
+        {% for data in members_data %}
+
+        <tr>
+
+          <td>{{data.member_id}}</td>
+          <td>{{data.member_name}}</td>
+          <td>{{data.member_phno}}</td>
+          {% if data.member_email %}
+          <td class="bg-success">{{data.member_email}}</td>
+          {%else%}
+          <td class="bg-danger">No Email Provided</td>
+          {%endif%}
+          <td>{{data.discount_given}}</td>
+          <td>{{data.date_of_membership}}</td>
+        </tr>
+        {% endfor %}
+        <!-- loop end here -->
+      </tbody>
+    </table>
+    </div>
+    </div>
+
+  {%endblock%}

@@ -1,0 +1,175 @@
+{% extends "admin_layout.html" %}
+{% block body%}
+<!-- Table heading with add button -->
+<div class="page-headings">
+  <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#add-new-Product">
+    Add New Products
+  </button>
+</div>
+<br>
+<!-- Add new Product form modal ================================== -->
+
+<div class="modal fade" id="add-new-Product" tabindex="-1" role="dialog" aria-labelledby="add-new-Product-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="add-new-Product-modal-title"><b>Add New Product</b></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+      <!-- Form for new Product adding -->
+      <form action="#" method="post" enctype="multipart/form-data" class="was-validated">
+
+        <div class="modal-body">
+            <!-- Product id -->
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="Product-id">Product Id</label>
+                <input type="text" class="form-control" id="Product-id" placeholder="Enter Product Id" name="product-id" maxlength="5" required>
+              </div>
+              <!-- Product status -->
+              <div class="form-group col-md-6">
+                <label for="prod-loc">Product Location</label>
+                <input type="text" class="form-control" id="prod-loc" placeholder="Product Location" name="product-loc" maxlength="15" required>
+              </div>
+              </div>
+              <!-- Product Name -->
+              <div class="form-row">
+                <div class="form-group col-md-8">
+                  <label for="Product-Name">Product Name</label>
+                  <input type="text" class="form-control" id="Product-Name" placeholder="Enter Product Name" name="product-name" maxlength="60" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="prod-brand">Brand</label>
+                  <select id="prod-brand" class="form-control" name="product-brand">
+                    <option selected>No Brand</option>
+                    {% for brand in all_brands %}
+                    <option>{{brand.brand_name}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <!-- Buy and Sell Price -->
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="Product-buy-price">Product Buying Price</label>
+                  <input type="text" class="form-control" id="Product-buy-price" placeholder="Enter Buying Price" name="buy-price" maxlength="10" required>
+                </div>
+                <!-- Product status -->
+                <div class="form-group col-md-6">
+                  <label for="prod-sell-price">Product Selling Price</label>
+                  <input type="text" class="form-control" id="prod-sell-price" placeholder="Enter Selling price" name="sell-price" maxlength="11" required>
+                </div>
+                </div>
+                <!-- qty in hand and discount -->
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="Product-in-hand">Total Units</label>
+                    <input type="text" class="form-control" id="Product-in-hand" placeholder="Unit In Hand" name="product-in-hand" maxlength="10" required>
+                  </div>
+                  <!-- discount price -->
+                  <div class="form-group col-md-4">
+                    <label for="prod-discount">Discount Price</label>
+                    <input type="text" class="form-control" id="prod-discount" placeholder="Discount Price" name="product-discount" maxlength="6">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="prod-color">Color</label>
+                    <input type="text" class="form-control" id="prod-color" placeholder="Enter Color" name="product-color" maxlength="15">
+                  </div>
+                  </div>
+                  <!-- discription -->
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label for="Product-discription">Product Discription</label>
+                      <input type="text" class="form-control" id="Product-discription" placeholder="Enter Product Discription" name='product-description' maxlength="200">
+                    </div>
+                  </div>
+                  <!-- image -->
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="Product-img-file">Upload Product Image</label>
+                  <input type="file" class="form-control" id="Product-img-file" name='product_img' size=60>
+                </div>
+              </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-outline-success">Save</button>
+            </div>
+      </form>
+<!-- Form for new Product adding -->
+          </div>
+        </div>
+      </div>
+<!-- Add new Product form modal ================================== -->
+<!-- All products Table -->
+<!-- Card for table -->
+<div class="card table-cards">
+  <div class="card-body">
+    <!-- Table to show products -->
+    <table class="MyManageTables">
+      <thead>
+        <tr>
+          <th scope="col">Product Id</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Product Color</th>
+          <th scope="col">Product Brand</th>
+          <th scope="col">Units InHand</th>
+          <th scope="col" class="text-right">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop to show all brands in tables -->
+        {% for product in all_products %}
+        <tr>
+          <td>{{product.prod_id}}</td>
+          <td>{{product.prod_name}}</td>
+          <td>{{product.prod_color}}</td>
+          <td>{{product.prod_brand}}</td>
+          <!-- if condition  -->
+          {% if product.qty_remain > 20 %}
+          <td class="bg-success">{{product.qty_remain}}</td>
+          {% elif product.qty_remain <= 20%}
+          <td class="bg-danger">{{product.qty_remain}}</td>
+          {% else %}
+          <td>{{product.qty_remain}}</td>
+          {% endif %}
+          <!-- if condition  -->
+          <td class="text-right">
+            <a href="details-product/{{product.prod_id}}">
+              <button class="btn btn-info" type="button">View Details</button>
+            </a>
+              <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delete-confirm-{{product.prod_id}}">Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+        <!-- loop end here -->
+      </tbody>
+    </table>
+    </div>
+    <div class="card-footer table-detail-footer">
+      <small class="text-muted">All Products In Inventory</small>
+    </div>
+    </div>
+<!-- ==================delete modals ====================== -->
+{% for product in all_products %}
+<div class="modal fade" id="delete-confirm-{{product.prod_id}}" tabindex="-1" role="dialog" aria-labelledby="delete-confirm-Label" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="delete-confirm-Label">Delete Product : {{product.prod_name}}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+  </div>
+    <div class="modal-body">All Product Details And Data Will Get Deleted</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</ button>
+        <a href="/delete-product/{{product.prod_id}}">
+          <button type="button" class="btn btn-danger">Delete Anyway</button>
+        </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+<!-- ==================delete modals ====================== -->
+{% endblock %}

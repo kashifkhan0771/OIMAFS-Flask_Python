@@ -1,0 +1,293 @@
+{% extends "admin_layout.html" %}
+{% block body%}
+<div class="card-group detail-data-cards">
+  <!-- card 1 -->
+  <div class="card" title="Description Of Product">
+    <div class="card-body bg-danger text-white">
+      <p class="card-text"><b>Note : </b> The Forecasting Depends Upon The Previous Data Trends And Values
+      , More Data You Have More Our Forecasting Algoritham Will Predict Exact Value. The Algoritham Get Trained Using
+    Your Previous Days Data.</p>
+      <p class="card-text">The Values You Are Getting May Not Be Exact, But They Fall Near The Exact Values And It Depend Upon How
+      Much Data You Have Previously(How Much Days Of Selling Products You Have).</p>
+    </div>
+  </div>
+  </div>
+<!-- sold forecast chart -->
+
+<div class="card big-graph-card">
+  <div class="card-header">
+    <small class="text-muted">Next 15 Days Solds</small>
+  </div>
+  <div class="card-body">
+    <canvas id="sold_forecast" style="position: relative;" width="1070px" height="400"></canvas>
+  </div>
+  <div class="card-footer graph-detail-footer">
+    <small class="text-muted">Next 15 Days Solds</small>
+  </div>
+</div>
+<!-- sold forecast chart -->
+<!-- profit forecast chart -->
+<div class="card big-graph-card">
+  <div class="card-header">
+    <small class="text-muted">Next 15 Days Profit</small>
+  </div>
+  <div class="card-body">
+    <canvas id="profit_forecast" style="position: relative;" width="1070px" height="400"></canvas>
+  </div>
+  <div class="card-footer graph-detail-footer">
+    <small class="text-muted">Next 15 Days Profit</small>
+  </div>
+</div>
+<!-- profit forecast chart -->
+<!-- train data chart -->
+<div class="card big-graph-card">
+  <div class="card-header">
+    <small class="text-muted">Previous Data Summary</small>
+  </div>
+  <div class="card-body">
+    <canvas id="prev_data_summary" style="position: relative;" width="1070px" height="400"></canvas>
+  </div>
+  <div class="card-footer graph-detail-footer">
+    <small class="text-muted">Previous Data Summary Chart</small>
+  </div>
+</div>
+<!-- card to show data Information -->
+<div class="card-group detail-data-cards">
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Previous Solds Data Summary</h5>
+    <p class="card-text">
+      <table class="table table-dark table-hover">
+        <tr>
+          <th scope="col">Rows(Count)</th>
+          {% if all_stats[0] <= 30 %}
+          <td class="bg-danger">{{all_stats[0]}} (Forecasting Data Usually May Not Be Acurate)</td>
+          {% elif all_stats[0] <= 60 %}
+          <td class="bg-warning">{{all_stats[0]}} (Forecasting Data Sometimes May Not Be Acurate)</td>
+          {% else %}
+          <td class="bg-success">{{all_stats[0]}} (Forecasting Data Will Be Near To Acurate)</td>
+          {% endif %}
+        </tr>
+        <tr>
+          <th scope="col">Maximum Value</th>
+          <td>{{all_stats[1]}}</td>
+        </tr>
+        <tr>
+          <th scope="col">Mean Of All Values</th>
+          <td>{{all_stats[2]}}</td>
+        </tr>
+        <tr>
+          <th scope="col">Minimum Value</th>
+          <td>{{all_stats[3]}}</td>
+        </tr>
+        <tr>
+          <th scope="col">Used For Training</th>
+          <td>{{all_stats[4]}}</td>
+        </tr>
+        <tr>
+          <th scope="col">Median Of All Values</th>
+          <td>{{all_stats[5]}}</td>
+        </tr>
+        <tr>
+          <th scope="col">Standard Deviation</th>
+          <td>{{all_stats[6]}}</td>
+        </tr>
+      </table>
+    </p>
+  </div>
+  <div class="card-footer">
+    <small class="text-muted">All Your Previous Solds Data Summary</small>
+  </div>
+</div>
+</div>
+
+<!-- train data chart -->
+<!-- Table to show all data -->
+<div class="card table-cards">
+  <div class="card-body">
+    <table class="MyManageTables">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Forecasted Solds</th>
+          <th scope="col">Forecasted Profit</th>
+          <th scope="col">Actual Solds</th>
+          <th scope="col">Actual Profit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for data in all_forecast_data %}
+        <tr>
+          <td>{{data.date}}</td>
+          <td>{{data.sold}}</td>
+          <td>{{data.profit}}</td>
+          {% if data.actual_sold == 0 %}
+          <td class="bg-primary">No Solds</td>
+          {% else %}
+          <td class="bg-secondary">{{data.actual_sold}}</td>
+          {% endif %}
+          {% if data.actual_profit == 0 %}
+          <td class="bg-primary">No Profit</td>
+          {% else %}
+          <td class="bg-secondary">{{data.actual_profit}}</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+<div class="card-footer table-detail-footer">
+  <small class="text-muted">All Previous Forecast Data Vs Actual Data</small>
+</div>
+</div>
+<script type="text/javascript">
+
+Chart.defaults.global.responsive = false;
+
+// define the chart data for chart 1
+var bar_chart = document.getElementById('sold_forecast').getContext('2d');
+var my_bar_Chart = new Chart(bar_chart, {
+    type: 'bar',
+    data: {
+      labels : [{% for item in forecast_data %}
+               "{{item.date}}",
+              {% endfor %}],
+        datasets: [{
+            label: 'Sold Forecasting',
+            fill: true,
+            data: [{% for item in forecast_data %}
+                      {{item.sold}},
+                    {% endfor %}],
+            backgroundColor: [
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)',
+                'rgba(25, 75, 200, 0.3)'
+            ],
+            borderColor: [
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)',
+                'rgba(25, 25, 200, 1)'
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+// second chart for profit forecasting
+var line_chart = document.getElementById('profit_forecast').getContext('2d');
+var my_line_Chart = new Chart(line_chart, {
+    type: 'line',
+    data: {
+      labels : [{% for item in forecast_data %}
+               "{{item.date}}",
+              {% endfor %}],
+        datasets: [{
+            label: 'Profit Forecasting',
+            fill: true,
+            data: [{% for item in forecast_data %}
+                      {{item.profit}},
+                    {% endfor %}],
+            backgroundColor: [
+                'rgba(60, 255, 54, 0.3)',
+            ],
+            borderColor: [
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)',
+                'rgba(69, 255, 54, 1)'
+            ],
+            borderWidth: 3
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+// third chart for train data showing
+var train_chart = document.getElementById('prev_data_summary').getContext('2d');
+var my_train_Chart = new Chart(train_chart, {
+    type: 'line',
+    data: {
+      labels : ["Count", "Max", "Mean", "Min", "Used For Training", "Median", "STD"],
+        datasets: [{
+            label: 'Data',
+            fill: true,
+            data: [{% for item in all_stats %}
+                      {{item}},
+                    {% endfor %}],
+            backgroundColor: [
+                'rgba(75, 192, 192, 0.3)'
+            ],
+            borderColor: [
+                'rgba(75, 192, 255, 1)',
+                'rgba(75, 192, 255, 1)',
+                'rgba(75, 192, 255, 1)',
+                'rgba(75, 192, 255, 1)',
+                'rgba(75, 192, 255, 1)',
+                'rgba(75, 192, 255, 1)',
+                'rgba(75, 192, 255, 1)'
+            ],
+            borderWidth: 3
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,494 @@
+{% extends "admin_layout.html" %}
+{% block body%}
+<!-- heading -->
+<div class="detail-page-headings">
+  <a href="/manage-products">
+    <button class="btn btn-outline-secondary" type="button">
+      Back To Manage Products
+    </button>
+  </a>
+    <button class="btn btn-outline-info" type="button" data-toggle="modal" data-target="#edit-store">
+      Edit Details
+    </button>
+</div>
+<br>
+<!-- ================================== edit form model starts ========================================= -->
+
+<div class="modal fade" id="edit-store" tabindex="-1" role="dialog" aria-labelledby="edit-product-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="edit-product-modal-title"><b>Edit Product Details</b></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+      <!-- Form for new store adding -->
+      <form action="#" method="post" enctype="multipart/form-data">
+
+        <div class="modal-body">
+            <!-- product id -->
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="product-id">Product Id</label>
+                <input type="text" class="form-control" id="product-id" placeholder="Enter Product Id" name="product-id" maxlength="5" value="{{prod_data.prod_id}}" required>
+              </div>
+              <!-- product location -->
+              <div class="form-group col-md-6">
+                <label for="product-loc">Product Location</label>
+                <input type="text" class="form-control" id="product-loc" placeholder="Enter Product Location" name="product-loc" maxlength="15" value="{{prod_data.prod_location}}" required>
+              </div>
+              </div>
+              <!-- name of product -->
+              <div class="form-row">
+                <div class="form-group col-md-8">
+                  <label for="product-name">Product Name</label>
+                  <input type="text" class="form-control" id="product-name" placeholder="Enter Product Name" name="product-name" maxlength="60" value="{{prod_data.prod_name}}" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="prod-brand">Brand Name</label>
+                  <select id="prod-brand" class="form-control" name="product-brand">
+                    <!-- checking if brand name is same as product brand to select it ....yahooooo -->
+                    {% for brand in all_brands %}
+                    {% if brand.brand_name == prod_data.prod_brand %}
+                    <option selected>{{brand.brand_name}}</option>
+                    {% else %}
+                    <option>{{brand.brand_name}}</option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                </div>
+              <!-- buy and selling price -->
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="buy-price">Buy Price</label>
+                  <input type="text" class="form-control" id="buy-price" placeholder="Buy Price" name="buy-price" maxlength="10" value="{{prod_data.buy_price}}" required>
+                </div>
+                <!-- product location -->
+                <div class="form-group col-md-4">
+                  <label for="sell-price">Selling Price</label>
+                  <input type="text" class="form-control" id="sell-price" placeholder="Selling Price" name="sell-price" maxlength="11" value="{{prod_data.sell_price}}" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="dis-price">Discount Price</label>
+                  <input type="text" class="form-control" id="dis-price"  placeholder="Discount Price" name="dis-price" maxlength="11" value="{{prod_data.discount_price}}" required>
+                </div>
+                </div>
+                <!-- rem qty and total qty -->
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="total-qty">Units Buyed</label>
+                    <input type="text" class="form-control" id="total-qty"  placeholder="Total Buyed Units" name="total-qty" maxlength="10" value="{{prod_data.qty_total}}" required>
+                  </div>
+                  <!-- product location -->
+                  <div class="form-group col-md-4">
+                    <label for="rem-qty">Units Remaining</label>
+                    <input type="text" class="form-control" id="rem-qty"  placeholder="Units Remaining" name="rem-qty" maxlength="11" value="{{prod_data.qty_remain}}" required readonly>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="color">Color</label>
+                    <input type="text" class="form-control" id="color" placeholder="Color" name="color" maxlength="11" value="{{prod_data.prod_color}}" required>
+                  </div>
+                  </div>
+                  <!-- discription for some reason not available -->
+                  <!-- image -->
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="Product-img-file">Upload Product Image</label>
+                  <input type="file" class="form-control" id="Product-img-file" name='product_img' size=60>
+                </div>
+              </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-outline-success">
+                <img src="{{url_for('static', filename='app_default_icons/update.svg')}}" alt="Information" width="20" height="20" title="Update">Update</button>
+            </div>
+      </form>
+          </div>
+        </div>
+      </div>
+      <!-- ================================== edit form model ends here ========================================= -->
+
+<!-- ================================= famous bar================================ -->
+<!-- Product Progress Bar -->
+<div class="card progress-bar-div">
+  <div class="card-body">
+{% if prod_details %}
+{% if prod_details.prod_gen_profit <=0 %}
+<h4>No Solds Yet</h4>
+<div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuemin="0" aria-valuemax="10000" style="width:0%"></div>
+</div>
+{% else %}
+<h4>Product Profit Bar : {{((prod_details.prod_gen_profit)/100)|round(1)}}%</h4>
+{% if prod_details.prod_gen_profit <= 2000 %}
+<div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{(prod_details.prod_gen_profit)/100}}%"></div>
+</div>
+{% elif prod_details.prod_gen_profit <= 5000 %}
+<div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{(prod_details.prod_gen_profit)/100}}%"></div>
+</div>
+{% elif prod_details.prod_gen_profit > 5000 %}
+<div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{(prod_details.prod_gen_profit)/100}}%"></div>
+</div>
+{% endif %}
+{% endif %}
+{%else%}
+<h4>No Solds Yet</h4>
+{% endif %}
+</div>
+</div>
+<!-- Product Progress Bar -->
+<!-- ================================= famous bar================================ -->
+<div class="card-group detail-data-cards">
+  <!-- card 1 -->
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">General Information</h5>
+      <p class="card-text">
+        <table class="table table-dark table-hover">
+          <tr>
+            <th scope="col">Id</th>
+            <td>{{prod_data.prod_id}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Name</th>
+            <td>{{prod_data.prod_name}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Brand</th>
+            <td>{{prod_data.prod_brand}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Location</th>
+            <td>{{prod_data.prod_location}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Color</th>
+            <td>{{prod_data.prod_color}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Remaining Units</th>
+            <!-- if else to give color to working and closed stores -->
+                  {% if prod_data.qty_remain >20 %}
+                  <td class="bg-success">{{prod_data.qty_remain}}</td>
+
+                  {% elif prod_data.qty_remain <=20 %}
+                  <td class="bg-danger">{{prod_data.qty_remain}}</td>
+
+                  {% endif %}
+            <!-- if else to give color to working and closed stores -->
+          </tr>
+        </table>
+      </p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">This is General Information Of product: {{prod_data.prod_name}}</small>
+    </div>
+  </div>
+  <!-- card 1 -->
+
+  <!-- card 2 -->
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Product Image</h5>
+      <p class="card-text image-div">
+        {% set img_name = 'uploaded_images/' + prod_data.prod_pic_url %}
+        <img src="{{url_for('static', filename=img_name)}}" alt="Brand Image" width="auto" height="290" title="Product Image" id="prod-img">
+      </p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">Picture Of Product : {{prod_data.prod_name}}</small>
+    </div>
+  </div>
+  <!-- card 2 -->
+  </div>
+  <!-- ================ detail info===================== -->
+  <div class="card-group detail-data-cards">
+    <!-- card 1 -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Detail Information</h5>
+        <p class="card-text">
+          <table class="table table-dark table-hover">
+            <tr>
+              <th scope="col">Buy Price</th>
+              <td>{{prod_data.buy_price}}</td>
+            </tr>
+            <tr>
+              <th scope="col">Selling Price</th>
+              <td>{{prod_data.sell_price}}</td>
+            </tr>
+            <tr>
+              <th scope="col">Profit Per Unit</th>
+              <td>{{prod_data.sell_price-prod_data.buy_price}}</td>
+            </tr>
+            <tr>
+              <th scope="col">Discount Per Unit</th>
+              <td>{{prod_data.discount_price}}</td>
+            </tr>
+          </table>
+        </p>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">This is Detail Information Of product: {{prod_data.prod_name}}</small>
+      </div>
+    </div>
+    <!-- second finance info card -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Financial Information</h5>
+        <p class="card-text">
+          <table class="table table-dark table-hover">
+            <tr>
+              <th scope="col">Total Units Buyed</th>
+              <td>{{prod_data.qty_total}}</td>
+            </tr>
+            <tr>
+              <th scope="col">Total Units Sold Until</th>
+              {% if prod_details.prod_total_sold %}
+              <!-- if else to give color to working and closed stores -->
+                    {% if prod_details.prod_total_sold >20 %}
+                    <td class="bg-success">{{prod_data.qty_total-prod_data.qty_remain}}</td>
+
+                    {% elif prod_details.prod_total_sold <=20 %}
+                    <td class="bg-danger">{{prod_data.qty_total-prod_data.qty_remain}}</td>
+                    {% endif %}
+                {% else %}
+                <td class="bg-warning">{{prod_data.qty_total-prod_data.qty_remain}}</td>
+                {% endif %}
+              <!-- if else to give color to working and closed stores -->
+            </tr>
+            <tr>
+              <th scope="col">Total Generated Revenue</th>
+              <td>{{prod_details.prod_gen_rev}}</td>
+            </tr>
+            <tr>
+              <th scope="col">Total Profit Generated</th>
+              <td>{{prod_details.prod_gen_profit}}</td>
+            </tr>
+
+          </table>
+        </p>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">This is Financial Information Of product: {{prod_data.prod_name}}</small>
+      </div>
+    </div>
+    </div>
+    <!-- Description card under image -->
+    <div class="card-group detail-data-cards">
+      <!-- card 1 -->
+      <div class="card" title="Description Of Product">
+        <div class="card-body bg-dark text-white">
+          <p class="card-text">{{prod_data.description}}</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Description Of Product : {{prod_data.prod_name}}</small>
+        </div>
+      </div>
+      </div>
+        <!-- Description card under image -->
+<br>
+<!-- =========================charts============================================ -->
+<div class="card big-graph-card">
+  <div class="card-body">
+    <canvas id="prod_by_date_comparison" style="position: relative;" width="1070px" height="400"></canvas>
+  </div>
+  <div class="card-footer graph-detail-footer">
+    <small class="text-muted">Graph For Comparison Of Sales Last 10 Days</small>
+  </div>
+</div>
+<div class="card big-graph-card">
+  <div class="card-body">
+    <canvas id="product-total-sold-chart" style="position: relative;" width="1070px" height="350"></canvas>
+  </div>
+  <div class="card-footer graph-detail-footer">
+    <small class="text-muted">Total Sold Last 10 Days</small>
+  </div>
+</div>
+<!-- =========================charts============================================ -->
+<br>
+<!-- Datatable for All Selling Details by date -->
+<div class="card data-table-card">
+<div class="card-body ">
+
+<table class="table table-hover table-bordered MyDataTables" style="width:100%">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Generated Revenue</th>
+                <th>Generated Profit</th>
+                <th>Total Solds</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for data in prod_by_date_details %}
+          <tr>
+            <td>{{data.date}}</td>
+            <td>{{data.gen_rev}}</td>
+            <td>{{data.gen_profit}}</td>
+            {% if data.total_sold > 15 %}
+            <td class="bg-success">{{data.total_sold}}</td>
+            {% elif data.total_sold == 15 %}
+            <td class="bg-warning">{{data.total_sold}}</td>
+            {% else %}
+            <td class="bg-danger">{{data.total_sold}}</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+  </table>
+</div>
+<div class="card-footer table-detail-footer">
+  <small class="text-muted">All Details For Store : {{prod_data.prod_name}}</small>
+</div>
+</div>
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <script type="text/javascript">
+
+    Chart.defaults.global.responsive = false;
+          // Chart 1 ========================================
+    var comparison_chart = document.getElementById('prod_by_date_comparison').getContext('2d');
+    var my_comparison_Chart = new Chart(comparison_chart, {
+        type: 'bar',
+        data: {
+          labels : [{% for item in chart_data["labels"] %}
+                   "{{item}}",
+                  {% endfor %}],
+            datasets: [{
+                label: '{{ chart_data["legend1_1"] }}',
+                fill: true,
+                data: [{% for item in chart_data["values1"] %}
+                          {{item}},
+                        {% endfor %}],
+                backgroundColor: [
+                    'rgba(69, 255, 54, 0.4)',
+                    'rgba(69, 255, 54, 0.4)',
+                    'rgba(69, 255, 54, 0.4)',
+                    'rgba(69, 255, 54, 0.4)',
+                    'rgba(69, 255, 54, 0.4)',
+                    'rgba(69, 255, 54, 0.4)',
+                    'rgba(69, 255, 54, 0.4)',
+                    'rgba(69, 255, 54, 0.4)',
+                    'rgba(69, 255, 54, 0.4)',
+                    'rgba(69, 255, 54, 0.4)'
+                ],
+                borderColor: [
+                    'rgba(69, 255, 54, 1)',
+                    'rgba(69, 255, 54, 1)',
+                    'rgba(69, 255, 54, 1)',
+                    'rgba(69, 255, 54, 1)',
+                    'rgba(69, 255, 54, 1)',
+                    'rgba(69, 255, 54, 1)',
+                    'rgba(69, 255, 54, 1)',
+                    'rgba(69, 255, 54, 1)',
+                    'rgba(69, 255, 54, 1)',
+                    'rgba(69, 255, 54, 1)'
+                ],
+                borderWidth: 3
+            },
+            {
+                label: '{{ chart_data["legend1_2"] }}',
+                fill: false,
+                data: [{% for item in chart_data["values1_2"] %}
+                          {{item}},
+                        {% endfor %}],
+                backgroundColor: [
+                    'rgba(255, 50, 50, 0.4)',
+                    'rgba(255, 50, 50, 0.4)',
+                    'rgba(255, 50, 50, 0.4)',
+                    'rgba(255, 50, 50, 0.4)',
+                    'rgba(255, 50, 50, 0.4)',
+                    'rgba(255, 50, 50, 0.4)',
+                    'rgba(255, 50, 50, 0.4)',
+                    'rgba(255, 50, 50, 0.4)',
+                    'rgba(255, 50, 50, 0.4)',
+                    'rgba(255, 50, 50, 0.4)'
+                ],
+                borderColor: [
+                    'rgba(255, 50, 50, 1)',
+                    'rgba(255, 50, 50, 1)',
+                    'rgba(255, 50, 50, 1)',
+                    'rgba(255, 50, 50, 1)',
+                    'rgba(255, 50, 50, 1)',
+                    'rgba(255, 50, 50, 1)',
+                    'rgba(255, 50, 50, 1)',
+                    'rgba(255, 50, 50, 1)',
+                    'rgba(255, 50, 50, 1)',
+                    'rgba(255, 50, 50, 1)'
+                ],
+                borderWidth: 3
+            }
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    // define the chart data for chart 2 =================================================
+    var doughnut_chart = document.getElementById('product-total-sold-chart').getContext('2d');
+    var my_doughnut_Chart = new Chart(doughnut_chart, {
+        type: 'bar',
+        data: {
+          labels : [{% for item in chart_data["labels"] %}
+                   "{{item}}",
+                  {% endfor %}],
+            datasets: [{
+                label: '{{ chart_data["legend1_3"] }}',
+                fill: true,
+                data: [{% for item in chart_data["values1_3"] %}
+                          {{item}},
+                        {% endfor %}],
+                backgroundColor: [
+                    'rgba(25, 75, 192, 0.5)',
+                    'rgba(25, 75, 192, 0.5)',
+                    'rgba(25, 75, 192, 0.5)',
+                    'rgba(25, 75, 192, 0.5)',
+                    'rgba(25, 75, 192, 0.5)',
+                    'rgba(25, 75, 192, 0.5)',
+                    'rgba(25, 75, 192, 0.5)',
+                    'rgba(25, 75, 192, 0.5)',
+                    'rgba(25, 75, 192, 0.5)',
+                    'rgba(25, 75, 192, 0.5)'
+                ],
+                borderColor: [
+                'rgba(25, 75, 255, 1)',
+                'rgba(25, 75, 255, 1)',
+                'rgba(25, 75, 255, 1)',
+                'rgba(25, 75, 255, 1)',
+                'rgba(25, 75, 255, 1)',
+                'rgba(25, 75, 255, 1)',
+                'rgba(25, 75, 255, 1)',
+                'rgba(25, 75, 255, 1)',
+                'rgba(25, 75, 255, 1)',
+                'rgba(25, 75, 255, 1)'
+                ],
+                borderWidth: 3
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    </script>
+{% endblock %}

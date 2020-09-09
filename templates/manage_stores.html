@@ -1,0 +1,132 @@
+{% extends "admin_layout.html" %}
+{% block body%}
+<!-- Table heading with add button -->
+<div class="page-headings">
+  <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#add-new-store">
+    Add New Store
+  </button>
+</div>
+<br>
+
+<!-- Add new store form modal ================================== -->
+
+<div class="modal fade" id="add-new-store" tabindex="-1" role="dialog" aria-labelledby="add-new-store-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="add-new-store-modal-title"><b>Add New Store</b></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+      <!-- Form for new store adding -->
+      <form action="#" method="post" enctype="multipart/form-data" class="was-validated">
+
+        <div class="modal-body">
+            <!-- Store id -->
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="store-id">Store Id</label>
+                <input type="text" class="form-control" id="store-id" placeholder="Enter Store Id" name="store-id" maxlength="5" required>
+              </div>
+              <!-- store status -->
+              <div class="form-group col-md-6">
+                <label for="inputStatus">Store Status</label>
+                <select id="inputStatus" class="form-control" name="store-status">
+                  <option selected>Working</option>
+                  <option>Closed</option>
+                </select>
+              </div>
+              </div>
+              <!-- store location -->
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="store-location">Store Location</label>
+                  <input type="text" class="form-control" id="store-location" placeholder="Enter Store Location" name="store-location" maxlength="30" required>
+                </div>
+              </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-outline-success">Save</button>
+            </div>
+      </form>
+<!-- Form for new store adding -->
+          </div>
+        </div>
+      </div>
+<!-- Add new store form modal ================================== -->
+
+<!-- Card for table -->
+<div class="card table-cards">
+  <div class="card-body">
+    <!-- Table to show stores -->
+    <table class="MyManageTables">
+      <thead>
+        <tr>
+          <th scope="col">Store Id</th>
+          <th scope="col">Store Location</th>
+          <th scope="col">Store Status</th>
+          <th scope="col" class="text-right">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop to show all stores in tables -->
+        {% for store_data in stores_data %}
+
+        <tr>
+
+          <td>{{store_data.store_id}}</td>
+          <td>{{store_data.store_location}}</td>
+    <!-- if else to give color to working and closed stores -->
+          {% if store_data.store_status == "Working" %}
+          <td class="bg-success">{{store_data.store_status}}</td>
+
+          {% elif store_data.store_status == "Closed" %}
+          <td class="bg-danger">{{store_data.store_status}}</td>
+
+          {% endif %}
+    <!-- if else to give color to working and closed stores -->
+
+          <td class="text-right">
+            <a href="details-store/{{store_data.store_id}}">
+              <button class="btn btn-info" type="button">View Details</button>
+            </a>
+
+              <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delete-confirm-{{store_data.store_id}}">Delete</button>
+
+          </td>
+
+        </tr>
+
+        {% endfor %}
+        <!-- loop end here -->
+      </tbody>
+    </table>
+
+    {% for store_data in stores_data %}
+    <div class="modal fade" id="delete-confirm-{{store_data.store_id}}" tabindex="-1" role="dialog" aria-labelledby="delete-confirm-Label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="delete-confirm-Label">Delete Store : {{store_data.store_id}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+        <div class="modal-body">All Store Details And Data Will Get Deleted</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</ button>
+            <a href="/delete-store/{{store_data.store_id}}">
+              <button type="button" class="btn btn-danger">Delete Anyway</button>
+            </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    <!-- table end here -->
+  </div>
+  <div class="card-footer table-detail-footer">
+    <small class="text-muted">All stores Of Inventory</small>
+  </div>
+</div>
+
+{% endblock %}

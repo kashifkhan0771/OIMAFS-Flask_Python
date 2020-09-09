@@ -1,0 +1,93 @@
+{% extends "user_layout.html" %}
+{% block body%}
+<div class="card dashboard-cards-all">
+  <!-- ================quick information cards starts from here ================================== -->
+<div class="card-deck">
+  <div class="card bg-dark">
+      <div class="card-header bg-dark text-white">
+        <h2>Total Brands : {{dashboard_data["total_brands"]}}</h2>
+      </div>
+      <table class="table table-hover table-dark">
+          <tr>
+              <th>Active</th>
+              <td class="bg-success">{{dashboard_data["active_brands"]}}</td>
+          </tr>
+          <tr>
+              <th>UnActive</th>
+              <td class="bg-danger">{{dashboard_data["unactive_brands"]}}</td>
+          </tr>
+      </table>
+      <div class="card-footer" style="border:0px;">
+        <a href="/view-brands" class="btn btn-outline-info btn-lg btn-block" role="button">View Brands</a>
+      </div>
+  </div>
+  <div class="card bg-dark">
+      <div class="card-header bg-dark text-white">
+        <h2>
+          Total Products : {{dashboard_data["total_prod"]}}
+        </h2>
+      </div>
+      <table class="table table-hover table-dark">
+          <tr>
+              <th>Near To End In Stock</th>
+              <td class="bg-warning">{{dashboard_data["near_to_out_of_order_prod"]}}</td>
+          </tr>
+          <tr>
+              <th>Out Of Order</th>
+              <td class="bg-danger">{{dashboard_data["out_of_order_prod"]}}</td>
+          </tr>
+      </table>
+      <div class="card-footer" style="border:0px;">
+        <a href="/view-products" class="btn btn-outline-info btn-lg btn-block" role="button">View Products</a>
+      </div>
+  </div>
+  <div class="card bg-dark">
+      <div class="card-header bg-dark text-white">
+        <h2>
+          Inbox Messages : {{dashboard_data["total_messages"]}}
+        </h2>
+      </div>
+      <table class="table table-hover table-dark">
+          <tr>
+              <th>Readed</th>
+              <td class="bg-success">{{dashboard_data["readed_messages"]}}</td>
+          </tr>
+          <tr>
+              <th>UnReaded</th>
+              <td class="bg-danger">{{dashboard_data["unread_messages"]}}</td>
+          </tr>
+      </table>
+      <div class="card-footer" style="border:0px;">
+        <a href="/messages-inbox/{{user_data.user_id}}" class="btn btn-outline-info btn-lg btn-block" role="button">View Messages</a>
+      </div>
+  </div>
+</div>
+</div>
+<div class="card table-cards">
+  <div class="card-body">
+    <!-- Table to show memebers -->
+    <table class="MyViewTables">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop to show all members in tables -->
+        {% for data in dashboard_data["recent_activities"] %}
+        <tr>
+          <td>{{data.date}}</td>
+          <td>{{data.action}}</td>
+        </tr>
+        {% endfor %}
+        <!-- loop end here -->
+      </tbody>
+    </table>
+    <!-- table end here -->
+  </div>
+  <div class="card-footer table-detail-footer">
+    <small class="text-muted">Your Recent Activities On Application</small>
+  </div>
+</div>
+{% endblock %}

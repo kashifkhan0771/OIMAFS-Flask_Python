@@ -1,0 +1,97 @@
+{% extends "admin_layout.html" %}
+{% block body%}
+<div class="page-headings">
+  <button class="btn btn-outline-danger" type="button" data-toggle="modal" data-target="#delete-logs">
+    Clear Logs
+  </button>
+</div>
+<br>
+<!-- clear logs modal -->
+<div class="modal fade" id="delete-logs" tabindex="-1" role="dialog" aria-labelledby="delete-logs-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="delete-logs-modal-title"><b>Clear Logs</b></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+      <!-- Form for new store adding -->
+      <form action="#" method="post">
+
+        <div class="modal-body">
+          <!-- specific date -->
+            <div class="form-row">
+              <label for="spec-date">
+                Specific Date
+              </label>
+              <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                <input type="radio" id="spec-date" aria-label="Radio button for following text input" name="clear-log-from" value="one-date" checked required>
+                </div>
+              </div>
+              <input type="date" class="form-control" aria-label="Text input with radio button" name="one-date">
+            </div>
+            </div>
+            <!-- specific date -->
+            <!-- range-date -->
+            <div class="form-row">
+              <label for="range-date">
+                Range Of Date
+              </label>
+              <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                <input type="radio" id="range-date" aria-label="Radio button for following text input" name="clear-log-from" value="range-date">
+                </div>
+              </div>
+              <input type="date" class="form-control" aria-label="Text input with radio button" name="from">
+              <input type="date" class="form-control" aria-label="Text input with radio button" name="to">
+            </div>
+            </div>
+            <!-- range-date -->
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-outline-danger">
+                <img src="{{url_for('static', filename='app_default_icons/trash.svg')}}" alt="Information" width="22" height="22" title="Delete">Clear
+            </button>
+            </div>
+      </form>
+          </div>
+        </div>
+      </div>
+
+<div class="card table-cards">
+  <div class="card-body">
+    <table class="MyManageTables">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Action Performed</th>
+          <th>Performed By</th>
+          <th>User Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in all_logs %}
+        <tr>
+        <td>{{log.date}}</td>
+        <td>{{log.action}}</td>
+        {% if log.performed_by == admin_data.admin_id and log.user_type == "admin" %}
+        <td class="bg-primary">{{log.performed_by}}</td>
+        {% else %}
+        <td class="bg-secondary">{{log.performed_by}}</td>
+        {% endif %}
+        <td>{{log.user_type}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer table-detail-footer">
+    <small class="text-muted">All Logs For Application</small>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,442 @@
+<!-- do not dare to understant what is written below you life will get destroyed after trying to understant this piece of **** -->
+{% extends "admin_layout.html" %}
+{% block body%}
+
+<!-- heading -->
+<div class="detail-page-headings">
+  <a href="/manage-stores">
+    <button class="btn btn-outline-secondary" type="button">
+      Back To Manage Stores
+    </button>
+  </a>
+    <button class="btn btn-outline-info" type="button" data-toggle="modal" data-target="#edit-store">
+      Edit Details
+    </button>
+</div>
+<br>
+<!-- ==================== Edit Form Modal ================================ -->
+
+<div class="modal fade" id="edit-store" tabindex="-1" role="dialog" aria-labelledby="edit-store-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="edit-store-modal-title"><b>Edit Store Details</b></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+      <!-- Form for new store adding -->
+      <form action="#" method="post">
+
+        <div class="modal-body">
+            <!-- Store id -->
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="store-id">Store Id</label>
+                <input type="text" class="form-control" id="store-id" placeholder="Enter Store Id" name="store-id" maxlength="5" value="{{store_data.store_id}}" required>
+              </div>
+              <!-- store status -->
+              <div class="form-group col-md-6">
+                <label for="inputStatus">Store Status</label>
+                <select id="inputStatus" class="form-control" name="store-status">
+                  {% if store_data.store_status == "Working" %}
+                  <option selected>Working</option>
+                  <option>Closed</option>
+                  {% elif store_data.store_status == "Closed" %}
+                  <option>Working</option>
+                  <option selected>Closed</option>
+                  {% endif %}
+                </select>
+              </div>
+              </div>
+              <!-- store location -->
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="store-location">Store Location</label>
+                  <input type="text" class="form-control" id="store-location" placeholder="Enter Store Location" name="store-location" maxlength="30" value="{{store_data.store_location}}" required>
+                </div>
+              </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-outline-success">
+                <img src="{{url_for('static', filename='app_default_icons/update.svg')}}" alt="Information" width="20" height="20" title="Update">
+              Update</button>
+            </div>
+      </form>
+          </div>
+        </div>
+      </div>
+<!-- main whole card -->
+
+<!-- Store Progress Bar not included if wanna include uncomment the code below -->
+<!-- <div class="card progress-bar-div">
+  <div class="card-body">
+{% if store_data.store_total_sold <=0 %}
+<h4>No Solds Yet</h4>
+<div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%"></div>
+</div>
+{% else %}
+<h4>Store Progress : {{(store_data.store_gen_profit/100)|round(1)}}</h4>
+{% if (store_data.store_gen_profit/100)|round(1) <= 25 %}
+<div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{(store_data.store_gen_profit/100)|round(1)}}%"></div>
+</div>
+{% elif (store_data.store_gen_profit/100)|round(1) <= 65 %}
+<div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{(store_data.store_gen_profit/100)|round(1)}}%"></div>
+</div>
+{% elif (store_data.store_gen_profit/100)|round(1) >65 %}
+<div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{(store_data.store_gen_profit/100)|round(1)}}%"></div>
+</div>
+{% endif %}
+{% endif %}
+</div>
+</div> -->
+<!-- Store Progress Bar -->
+
+    <div class="card-group detail-data-cards">
+      <!-- card 1 -->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">General Information</h5>
+          <p class="card-text">
+            <table class="table table-dark table-hover">
+              <tr>
+                <th scope="col">Id</th>
+                <td>{{store_data.store_id}}</td>
+              </tr>
+              <tr>
+                <th scope="col">Status</th>
+                <!-- if else to give color to working and closed stores -->
+                      {% if store_data.store_status == "Working" %}
+                      <td class="bg-success">{{store_data.store_status}}</td>
+
+                      {% elif store_data.store_status == "Closed" %}
+                      <td class="bg-danger">{{store_data.store_status}}</td>
+
+                      {% endif %}
+                <!-- if else to give color to working and closed stores -->
+              </tr>
+              <tr>
+                <th scope="col">Location</th>
+                <td>{{store_data.store_location}}</td>
+              </tr>
+              <tr>
+                <th scope="col">Total Employees(Users) </th>
+                <td>{{total_users}}</td>
+              </tr>
+            </table>
+          </p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">This Is General Information For Store : {{store_data.store_id}}</small>
+        </div>
+      </div>
+      <!-- card 1 -->
+
+      <!-- card 2 -->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Financial Information</h5>
+          <p class="card-text">
+            <table class="table table-dark table-hover">
+              <tr>
+                <th scope="col">Generated Revenue</th>
+                <td>{{store_data.store_gen_rev}}</td>
+              </tr>
+              <tr>
+                <th scope="col">Generted Profit</th>
+                <td>{{store_data.store_gen_profit}}</td>
+              </tr>
+              <tr>
+                <th scope="col">Total Solds</th>
+                <td>{{store_data.store_total_sold}}</td>
+              </tr>
+              <tr>
+                <th scope="col">Cost</th>
+                <td>{{store_data.store_gen_rev-store_data.store_gen_profit}}</td>
+              </tr>
+            </table>
+          </p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">This Is Financial Information For Store : {{store_data.store_id}}</small>
+        </div>
+      </div>
+      <!-- card 2 -->
+      </div>
+
+<br>
+
+<!-- charts canvas in cards -->
+
+<div class="card-group graph-cards">
+<div class="card">
+  <div class="card-body">
+    <canvas id="store_profit_rev_chart" style="position: relative;" width="500px" height="400"></canvas>
+  </div>
+  <div class="card-footer graph-detail-footer">
+    <small class="text-muted">Graph Of Total Profit And Revenue For Store : {{store_data.store_id}}</small>
+  </div>
+</div>
+<div class="card">
+  <div class="card-body">
+    <canvas id="store_total_sold_line_chart" style="position: relative;" width="500px" height="400"></canvas>
+  </div>
+  <div class="card-footer graph-detail-footer">
+    <small class="text-muted">Graph Of Total Solds Last 06 Days In Store : {{store_data.store_id}}</small>
+  </div>
+</div>
+</div>
+<br>
+      <div class="card big-graph-card">
+        <div class="card-body">
+          <canvas id="store_by_date_comparison" style="position: relative;" width="1070px" height="400"></canvas>
+        </div>
+        <div class="card-footer graph-detail-footer">
+          <small class="text-muted">Graph For Comparison Of Profit And Revenue Of Last 10 Days</small>
+        </div>
+      </div>
+<!-- charts canvas in cards -->
+<!-- top products table -->
+<div class="card data-table-card">
+<div class="card-body ">
+
+<table class="table MyManageTables" style="width:100%">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Product Id</th>
+                <th>Product Name</th>
+                <th>Total Solds</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for data in top_prod %}
+          <tr>
+            <td>{{data.date}}</td>
+            <td>{{data.prod_id}}</td>
+            <td>{{data.prod_name}}</td>
+            <td>{{data.total_sold}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+  </table>
+</div>
+<div class="card-footer table-detail-footer">
+  <small class="text-muted">Top Best Selling Products Of Store : {{store_data.store_id}}</small>
+</div>
+</div>
+<!-- top products table -->
+<!-- Datatable for All Selling Details by date -->
+<div class="card data-table-card">
+<div class="card-body ">
+
+<table class="table table-hover table-bordered MyDataTables" style="width:100%">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Generated Revenue</th>
+                <th>Generated Profit</th>
+                <th>Total Solds</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for data in all_store_data_by_date %}
+          <tr>
+            <td>{{data.date}}</td>
+            <td>{{data.gen_rev}}</td>
+            <td>{{data.gen_profit}}</td>
+            {% if data.total_sold > 15 %}
+            <td class="bg-success">{{data.total_sold}}</td>
+            {% elif data.total_sold == 15 %}
+            <td class="bg-warning">{{data.total_sold}}</td>
+            {% else %}
+            <td class="bg-danger">{{data.total_sold}}</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+  </table>
+</div>
+<div class="card-footer table-detail-footer">
+  <small class="text-muted">All Details For Store : {{store_data.store_id}}</small>
+</div>
+</div>
+
+<!-- Script for charts -->
+<!-- ======================================================= -->
+<script type="text/javascript">
+
+Chart.defaults.global.responsive = false;
+
+// define the chart data for chart 1
+var bar_chart = document.getElementById('store_profit_rev_chart').getContext('2d');
+var my_bar_Chart = new Chart(bar_chart, {
+    type: 'bar',
+    data: {
+      labels : [{% for item in chart_data["labels1"] %}
+               "{{item}}",
+              {% endfor %}],
+        datasets: [{
+            label: '{{ chart_data["legend1"] }}',
+            fill: true,
+            data: [{% for item in chart_data["values1"] %}
+                      {{item}},
+                    {% endfor %}],
+            backgroundColor: [
+                'rgba(255, 69, 54, 0.5)',
+                'rgba(69, 255, 54, 0.5)'
+            ],
+            borderColor: [
+                'rgba(255, 69, 54, 1)',
+                'rgba(69, 255, 54, 1)'
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+// define chart date for chart 2
+var line_chart = document.getElementById('store_total_sold_line_chart').getContext('2d');
+var my_line_Chart = new Chart(line_chart, {
+    type: 'line',
+    data: {
+      labels : [{% for item in chart_data["labels2"] %}
+               "{{item}}",
+              {% endfor %}],
+        datasets: [{
+            label: 'Total Solds Last 6 Days',
+            fill: true,
+            data: [{% for item in chart_data["values2_3"] %}
+                      {{item}},
+                    {% endfor %}],
+            backgroundColor: [
+            'rgba(15, 100, 192, 0.5)'
+            ],
+            borderColor: [
+            'rgba(25, 75, 255, 1)',
+            'rgba(25, 75, 255, 1)',
+            'rgba(25, 75, 255, 1)',
+            'rgba(25, 75, 255, 1)',
+            'rgba(25, 75, 255, 1)',
+            'rgba(25, 75, 255, 1)'
+            ],
+            borderWidth: 2
+        }
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                },
+                gridLines: {
+                  display: true
+                }
+            }]
+        }
+    }
+});
+// define chart no 3
+var comparison_chart = document.getElementById('store_by_date_comparison').getContext('2d');
+var my_comparison_Chart = new Chart(comparison_chart, {
+    type: 'bar',
+    data: {
+      labels : [{% for item in chart_data["labels2_2"] %}
+               "{{item}}",
+              {% endfor %}],
+        datasets: [{
+            label: '{{ chart_data["legend2_1"] }}',
+            fill: true,
+            data: [{% for item in chart_data["values2_1"] %}
+                      {{item}},
+                    {% endfor %}],
+            backgroundColor: [
+                'rgba(255, 50, 50, 0.4)',
+                'rgba(255, 50, 50, 0.4)',
+                'rgba(255, 50, 50, 0.4)',
+                'rgba(255, 50, 50, 0.4)',
+                'rgba(255, 50, 50, 0.4)',
+                'rgba(255, 50, 50, 0.4)',
+                'rgba(255, 50, 50, 0.4)',
+                'rgba(255, 50, 50, 0.4)',
+                'rgba(255, 50, 50, 0.4)',
+                'rgba(255, 50, 50, 0.4)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)'
+            ],
+            borderWidth: 2
+        },
+        {
+            label: '{{ chart_data["legend2_2"] }}',
+            fill: true,
+            data: [{% for item in chart_data["values2_2"] %}
+                      {{item}},
+                    {% endfor %}],
+            backgroundColor: [
+                'rgba(30, 200, 75, 0.4)',
+                'rgba(30, 200, 75, 0.4)',
+                'rgba(30, 200, 75, 0.4)',
+                'rgba(30, 200, 75, 0.4)',
+                'rgba(30, 200, 75, 0.4)',
+                'rgba(30, 200, 75, 0.4)',
+                'rgba(30, 200, 75, 0.4)',
+                'rgba(30, 200, 75, 0.4)',
+                'rgba(30, 200, 75, 0.4)',
+                'rgba(30, 200, 75, 0.4)'
+            ],
+            borderColor: [
+                'rgba(30, 200, 75, 1)',
+                'rgba(30, 200, 75, 1)',
+                'rgba(30, 200, 75, 1)',
+                'rgba(30, 200, 75, 1)',
+                'rgba(30, 200, 75, 1)',
+                'rgba(30, 200, 75, 1)',
+                'rgba(30, 200, 75, 1)',
+                'rgba(30, 200, 75, 1)',
+                'rgba(30, 200, 75, 1)',
+                'rgba(30, 200, 75, 1)'
+            ],
+            borderWidth: 2
+        }
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+// define the chart data
+</script>
+<!-- Script for charts ends here -->
+<!-- ======================================================= -->
+<!-- Simple Bar Chart Graph ================== -->
+
+{% endblock %}

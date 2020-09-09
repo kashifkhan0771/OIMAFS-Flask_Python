@@ -1,0 +1,214 @@
+<!--
+Do not dare to change a single line even do not reorder them leave as it is or else it's gonna mess up
+This file contain the constant layout design through whole admin pages
+changing or removing even one line can mess up whole desgin
+ -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- this is page title -->
+    <title>{{page_data.page_title}}</title>
+    <!-- Link Chart.js files -->
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/Chart.min.js")}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/Chart.min.css")}}">
+    <!-- Linking css files -->
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/bootstrap.min.css")}}">
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/side_bar-custom.css")}}">
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/admin-custom.css")}}">
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/custom-media.css")}}">
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/jquery.dataTables.min.css")}}">
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/select2.min.css")}}">
+    <!-- loading some javascript files earlier for some reasons -->
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/jquery-3.4.1.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/popper.min.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/bootstrap.min.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/jquery.dataTables.min.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/select2.min.js")}}"></script>
+  </head>
+  <body>
+    <div class="d-flex" id="wrapper">
+
+      <!-- Sidebar stars from here-->
+      <div class="bg-dark" id="sidebar-wrapper">
+        <div class="list-group list-group-flush">
+          <div class="sidebar-heading" title="Application Name">OIMAFS</div>
+          <!-- Side bar items starts from here -->
+          <a href="/admin/{{admin_data.admin_id}}" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Dashboard</a>
+          <a href="/manage-stores" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Manage Stores</a>
+          <a href="/manage-brands" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Manage Brands</a>
+          <a href="/manage-products" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Manage Products</a>
+          <a href="/manage-members" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Manage Members</a>
+          <a href="/manage-users" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Manage Users</a>
+          <a href="/invoices" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Recent Invoices</a>
+          <a href="/forecasting" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Forecasting</a>
+          <a href="/reports-draft/{{admin_data.admin_id}}" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Reports</a>
+          <a href="/messages-inbox/{{admin_data.admin_id}}" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Messages</a>
+          <a href="/profile" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Profile</a>
+          <a href="/logs" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Logs</a>
+        </div>
+      </div>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content starts from here-->
+      <div id="page-content-wrapper">
+        <!--Top nav bar starts from here  -->
+        <nav class="navbar navbar-expand-lg navbar-dark border-bottom custom-top-navbar">
+          <!-- Sidebar toggle button -->
+          <button class="btn btn-outline-dark" id="menu-toggle" title="Open/Close Sidebar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- button for mobile navigation view -->
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+              <!-- current user name and data -->
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#user-logout" title="Current User">
+                  <!-- user-modal Button -->
+                  <button type="button" name="button" class="btn btn-outline-primary">{{admin_data.admin_name}}</button>
+                </a>
+              </li>
+              <!-- current user name and data li ends here -->
+            </ul>
+          </div>
+        </nav>
+        <!-- top navbar ends here -->
+
+        <!-- Logout Model Form -->
+        <div class="modal fade" id="user-logout" tabindex="-1" role="dialog" aria-labelledby="logout-modal-title" aria-hidden="true">
+          <div class="modal-dialog modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="logout-modal-title">
+                  <b>
+                  {{admin_data.admin_name}}
+                  <img src="{{url_for('static', filename='app_default_icons/badge.svg')}}" alt="Admin" width="42" height="34" title="Admin Badge">
+                  </b>
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+              </div>
+                <div class="modal-body">
+                  <table cellpadding="5", cellspacing="5">
+                    <tr>
+                      <td>Gender : </td><td>{{admin_data.admin_gender}}</td>
+                    </tr>
+                    <tr>
+                      <td>User Email : </td><td>{{admin_data.admin_email}}</td>
+                    </tr>
+                    <tr>
+                      <td>User PhNo : </td><td>{{admin_data.admin_phno}}</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                    <a href="/logout" class="logout-button-link"><button type="button" class="btn btn-outline-danger">LogOut</button></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        <!-- Logout Model Form ends here-->
+        <!-- =================== -->
+        <!-- Table heading with add button -->
+        <div class="page-headings">
+          <h2>{{page_data["page_heading"]}}</h2>
+        </div>
+        <hr>
+        <!-- Jinja Templating Statements for getting flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+          {% if category == "success" %}
+          <img src="{{url_for('static', filename='app_default_icons/okay-alert.svg')}}" alt="Successfully Executed" width="45" height="35" title="Successfully Executed">
+          {% elif category == "info" %}
+          <img src="{{url_for('static', filename='app_default_icons/info-alert.svg')}}" alt="Information" width="45" height="35" title="Information">
+          {% elif category == "danger" %}
+          <img src="{{url_for('static', filename='app_default_icons/danger-alert.svg')}}" alt="Danger" width="45" height="35" title="Danger">
+          {% elif category == "warning" %}
+          <img src="{{url_for('static', filename='app_default_icons/warning-alert.svg')}}" alt="Warning" width="45" height="35" title="Warning">
+          {% endif %}
+            {{message}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+        {%endif%}
+        {% endwith %}
+        <!-- Flash messges end here  -->
+        {% block body %}
+
+        <!-- All other pages content starts from here which extends this as a layout -->
+
+        {% endblock %}
+        <!-- ==================== -->
+      </div>
+      <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- some late loading javascripts files -->
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/dataTables.buttons.min.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/pdfmake.min.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/vfs_fonts.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/buttons.html5.min.js")}}"></script>
+    <!-- Manual Script -->
+    <script>
+      // jquery for sidebar toggle button
+      $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+      });
+      // jquery for sidebar toggle button
+      // Manual Script for Data Tables
+      $(document).ready(function() {
+          $('.MyDataTables').DataTable( {
+            dom: 'Bfrtlip',
+            "searching": true,
+            "ordering": false,
+            "pagingType": "full_numbers",
+            "lengthMenu": true,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            buttons: [
+                {
+                    extend:    'copyHtml5',
+                    text:      'Copy To ClipBoard',
+                    className: 'btn btn-dark',
+                    titleAttr: 'Copy'
+                },
+                {
+                    extend:    'csvHtml5',
+                    text:      'Export In CSV',
+                    className: 'btn btn-dark',
+                    titleAttr: 'CSV'
+                },
+                {
+                    extend:    'pdfHtml5',
+                    text:      'Export In PDF',
+                    className: 'btn btn-dark',
+                    titleAttr: 'PDF'
+                }
+            ]
+          } );
+      } );
+      $(document).ready(function() {
+          $('.MyManageTables').DataTable( {
+            "searching": true,
+            "ordering": false,
+            "pagingType": "full_numbers",
+            "lengthMenu": false,
+            "lengthMenu": [[5, 15, 30, -1], [5, 15, 30, "All"]]
+          } );
+      } );
+      // Manual Script for Data Tables ends here
+      // Script For Select2
+      $('.selectsendto').select2();
+      $('.SelectForReport').select2();
+    </script>
+    <!-- Manual Script ends here -->
+  </body>
+</html>

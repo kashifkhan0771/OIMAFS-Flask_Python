@@ -1,0 +1,310 @@
+ <!--
+ Admin Dashboard Shows Some Quick Information About Application
+ Just leave everything as it is.
+-->
+{% extends "admin_layout.html" %}
+{% block body%}
+<!-- Main Card Outside Of All Cards -->
+<div class="card dashboard-cards-all">
+  <!-- ================quick information cards starts from here ================================== -->
+  <div class="card-deck">
+    <!-- card 1 -->
+    <div class="card bg-dark">
+        <div class="card-header bg-dark text-white">
+          <h2>Total Stores : {{dashboard_data["total_stores"]}}</h2>
+        </div>
+        <table class="table table-hover table-dark">
+            <tr>
+                <th>Active</th>
+                <td class="bg-success">{{dashboard_data["active_stores"]}}</td>
+            </tr>
+            <tr>
+                <th>UnActive</th>
+                <td class="bg-danger">{{dashboard_data["unactive_stores"]}}</td>
+            </tr>
+        </table>
+        <div class="card-footer" style="border:0px;">
+          <a href="/manage-stores" class="btn btn-outline-info btn-lg btn-block" role="button">Manage Stores</a>
+        </div>
+    </div>
+  <!-- card 1 -->
+  <!-- card 2 -->
+  <div class="card bg-dark">
+      <div class="card-header bg-dark text-white">
+        <h2>Total Brands : {{dashboard_data["total_brands"]}}</h2>
+      </div>
+      <table class="table table-hover table-dark">
+          <tr>
+              <th>Active</th>
+              <td class="bg-success">{{dashboard_data["active_brands"]}}</td>
+          </tr>
+          <tr>
+              <th>UnActive</th>
+              <td class="bg-danger">{{dashboard_data["unactive_brands"]}}</td>
+          </tr>
+      </table>
+      <div class="card-footer" style="border:0px;">
+        <a href="/manage-brands" class="btn btn-outline-info btn-lg btn-block" role="button">Manage Brands</a>
+      </div>
+  </div>
+<!-- card 2 -->
+<!-- card 3 -->
+<div class="card bg-dark">
+    <div class="card-header bg-dark text-white">
+      <h2>Total Users : {{dashboard_data["all_users"]}}</h2>
+    </div>
+    <table class="table table-hover table-dark">
+        <tr>
+            <th>Active</th>
+            <td class="bg-success">{{dashboard_data["active_users"]}}</td>
+        </tr>
+        <tr>
+            <th>UnActive</th>
+            <td class="bg-danger">{{dashboard_data["unactive_users"]}}</td>
+        </tr>
+    </table>
+    <div class="card-footer" style="border:0px;">
+      <a href="/manage-users" class="btn btn-outline-info btn-lg btn-block" role="button">Manage Users</a>
+    </div>
+</div>
+<!-- card 3 -->
+</div>
+</div>
+<!-- Main Card Outside Of All Cards -->
+<!-- Row 2 information -->
+<!-- Main Card Outside Of All Cards -->
+<div class="card dashboard-cards-all">
+  <div class="card-deck">
+    <!-- card 1 row 2 -->
+    <div class="card bg-dark">
+        <div class="card-header bg-dark text-white">
+          <h2>
+            Total Products : {{dashboard_data["total_prod"]}}
+          </h2>
+        </div>
+        <table class="table table-hover table-dark">
+            <tr>
+                <th>Near To End In Stock</th>
+                <td class="bg-warning">{{dashboard_data["near_to_out_of_order_prod"]}}</td>
+            </tr>
+            <tr>
+                <th>Out Of Order</th>
+                <td class="bg-danger">{{dashboard_data["out_of_order_prod"]}}</td>
+            </tr>
+        </table>
+        <div class="card-footer" style="border:0px;">
+          <a href="/manage-products" class="btn btn-outline-info btn-lg btn-block" role="button">Manage Products</a>
+        </div>
+    </div>
+<!-- card 1 row 2 -->
+<!-- card 2 row 2 -->
+<div class="card bg-dark">
+    <div class="card-header bg-dark text-white">
+      <h2>
+        Total Members : {{dashboard_data["total_members"]}}
+      </h2>
+    </div>
+    <table class="table table-hover table-dark">
+        <tr>
+            <th>Profit Generated</th>
+            <td class="bg-success">{{dashboard_data["total_member_profit"]}}</td>
+        </tr>
+        <tr>
+            <th>Discount Given</th>
+            <td class="bg-danger">{{dashboard_data["total_discount_given"]}}</td>
+        </tr>
+    </table>
+    <div class="card-footer" style="border:0px;">
+      <a href="/manage-members" class="btn btn-outline-info btn-lg btn-block" role="button">Manage Members</a>
+    </div>
+</div>
+
+<!-- card 2 row 2 -->
+<!-- card 3 row 2 -->
+<div class="card bg-dark">
+    <div class="card-header bg-dark text-white">
+      <h2>
+        Inbox Messages : {{dashboard_data["total_messages"]}}
+      </h2>
+    </div>
+    <table class="table table-hover table-dark">
+        <tr>
+            <th>Readed</th>
+            <td class="bg-success">{{dashboard_data["readed_messages"]}}</td>
+        </tr>
+        <tr>
+            <th>UnReaded</th>
+            <td class="bg-danger">{{dashboard_data["unread_messages"]}}</td>
+        </tr>
+    </table>
+    <div class="card-footer" style="border:0px;">
+      <a href="/messages-inbox/{{admin_data.admin_id}}" class="btn btn-outline-info btn-lg btn-block" role="button">View Messages</a>
+    </div>
+</div>
+<!-- card 3 row 2 -->
+</div>
+</div>
+<!-- Main Card Outside Of All Cards -->
+  <!-- ================quick information cards ends here ================================== -->
+  <!-- canvas to show chart -->
+<div class="card big-graph-card">
+  <div class="card-header">
+      Last 10 Days Profit
+    </div>
+  <div class="card-body">
+    <canvas id="last_10_days_selling" style="position: relative;" width="1070px" height="400"></canvas>
+  </div>
+  <div class="card-footer graph-detail-footer">
+    <small class="text-muted">Last 10 Days Profit Of Whole Inventory</small>
+  </div>
+</div>
+  <!-- canvas to show chart -->
+  <!-- canvas to show chart -->
+
+<div class="card big-graph-card">
+  <div class="card-header">
+      Next 10 Days Profit Forecast
+    </div>
+  <div class="card-body">
+    <canvas id="next_10_days_profit" style="position: relative;" width="1070px" height="400"></canvas>
+  </div>
+  <div class="card-footer graph-detail-footer">
+    <small class="text-muted">Next 10 Days Profit</small>
+  </div>
+</div>
+  <!-- canvas to show chart -->
+  <!-- Total sellings of Inventory -->
+  <div class="card table-cards">
+    <div class="card-body">
+      <!-- Table to show memebers -->
+      <table class="MyManageTables">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Total Sold</th>
+            <th scope="col">Generated Revenue</th>
+            <th scope="col">Generated Profit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Loop to show all members in tables -->
+          {% for data in dashboard_data["total_inventory_selling"] %}
+          <tr>
+            <td>{{data.date}}</td>
+            <td>{{data.total_sold}}</td>
+            <td>{{data.gen_rev}}</td>
+            <td>{{data.gen_profit}}</td>
+          </tr>
+          {% endfor %}
+          <!-- loop end here -->
+        </tbody>
+      </table>
+      <!-- table end here -->
+    </div>
+    <div class="card-footer table-detail-footer">
+      <small class="text-muted">Inventory Overall Sellings By Date</small>
+    </div>
+  </div>
+  <!-- Total sellings of Inventory -->
+<!-- chart script -->
+<script type="text/javascript">
+
+Chart.defaults.global.responsive = false;
+var selling_chart = document.getElementById('last_10_days_selling').getContext('2d');
+var my_selling_Chart = new Chart(selling_chart, {
+    type: 'bar',
+    data: {
+      labels : [{% for item in dashboard_data["last_10_days_selling"] %}
+               "{{item.date}}",
+              {% endfor %}],
+        datasets: [{
+            label: 'Profit',
+            fill: true,
+            data: [{% for item in dashboard_data["last_10_days_selling"] %}
+                      {{item.gen_profit}},
+                    {% endfor %}],
+            backgroundColor: [
+                'rgba(30, 175, 75, 0.4)',
+                'rgba(30, 175, 75, 0.4)',
+                'rgba(30, 175, 75, 0.4)',
+                'rgba(30, 175, 75, 0.4)',
+                'rgba(30, 175, 75, 0.4)',
+                'rgba(30, 175, 75, 0.4)',
+                'rgba(30, 175, 75, 0.4)',
+                'rgba(30, 175, 75, 0.4)',
+                'rgba(30, 175, 75, 0.4)',
+                'rgba(30, 175, 75, 0.4)'
+            ],
+            borderColor: [
+                'rgba(30, 175, 75, 1)',
+                'rgba(30, 175, 75, 1)',
+                'rgba(30, 175, 75, 1)',
+                'rgba(30, 175, 75, 1)',
+                'rgba(30, 175, 75, 1)',
+                'rgba(30, 175, 75, 1)',
+                'rgba(30, 175, 75, 1)',
+                'rgba(30, 175, 75, 1)',
+                'rgba(30, 175, 75, 1)',
+                'rgba(30, 175, 75, 1)'
+            ],
+            borderWidth: 2
+        }
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+// forcast Chart
+var forecast_chart = document.getElementById('next_10_days_profit').getContext('2d');
+var my_forecast_Chart = new Chart(forecast_chart, {
+    type: 'line',
+    data: {
+      labels : [{% for item in dashboard_data["next_days_forecast"] %}
+               "{{item.date}}",
+              {% endfor %}],
+        datasets: [{
+            label: 'Profit',
+            fill: true,
+            data: [{% for item in dashboard_data["next_days_forecast"] %}
+                      {{item.profit}},
+                    {% endfor %}],
+            backgroundColor: [
+                'rgba(30, 200, 192, 0.4)'
+            ],
+            borderColor: [
+                'rgba(30, 200, 192, 1)',
+                'rgba(30, 200, 192, 1)',
+                'rgba(30, 200, 192, 1)',
+                'rgba(30, 200, 192, 1)',
+                'rgba(30, 200, 192, 1)',
+                'rgba(30, 200, 192, 1)',
+                'rgba(30, 200, 192, 1)',
+                'rgba(30, 200, 192, 1)',
+                'rgba(30, 200, 192, 1)',
+                'rgba(30, 200, 192, 1)'
+            ],
+            borderWidth: 2
+        }
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+
+{% endblock %}

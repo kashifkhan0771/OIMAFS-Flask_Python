@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Invoice</title>
+    <style>
+      .invoice-table-style{
+        border: 0px solid;
+        width: 100%;
+        height:100%;
+        text-align:center;
+        font-size:25px;
+        font-family: serif;
+      }
+      .invoice-table-style tr td{
+        border: 1px solid;
+        font-size:22px;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align:center;">Online Inventory Management System Invoice</h1>
+    <hr>
+    <h3 style="text-align:center;">Invoice For {{data.buyer}}</h3>
+    <br>
+    <table cellpadding="15" cellspacing="30" class="invoice-table-style">
+      <tr>
+        <th>Buyer Name</th>
+        <td>{{data.buyer}}</td>
+      </tr>
+      <tr>
+        <th>Date Of Buy</th>
+        <td>{{data.date}}</td>
+      </tr>
+      <tr>
+        <th>Product Name</th>
+        <td>{{data.prod_name}}</td>
+      </tr>
+      <tr>
+        <th>Quantity</th>
+        <td>{{data.qty}}</td>
+      </tr>
+      <tr>
+        <th>Paid Amount</th>
+        <td>{{data.paid_amount}} Rs</td>
+      </tr>
+      <tr>
+        <th>Sold By</th>
+        <td>{{data.prod_sold_by}}</td>
+      </tr>
+    </table>
+    <hr>
+    <br>
+    <h5 style="text-align:center;">OIMAFS &reg; 2020</h5>
+  </body>
+</html>

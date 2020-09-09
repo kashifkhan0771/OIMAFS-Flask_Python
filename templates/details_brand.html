@@ -1,0 +1,180 @@
+<!-- Dont dare to understand the code just enjoy the app "developer quote" -->
+{% extends "admin_layout.html" %}
+{% block body%}
+
+<!-- heading -->
+<div class="detail-page-headings">
+  <a href="/manage-brands">
+    <button class="btn btn-outline-secondary" type="button">
+      Back To Manage Brands
+    </button>
+  </a>
+    <button class="btn btn-outline-info" type="button" data-toggle="modal" data-target="#edit-brand">
+      Edit Details
+    </button>
+</div>
+<br>
+<!-- ================== Edit Form Modal ============================ -->
+
+
+<div class="modal fade" id="edit-brand" tabindex="-1" role="dialog" aria-labelledby="edit-brand-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="edit-brand-modal-title"><b>Edit Brand Details</b></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+      <!-- Form for new brand adding -->
+      <form action="#" method="post" enctype="multipart/form-data">
+
+        <div class="modal-body">
+            <!-- brand id -->
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="brand-id">Brand Id</label>
+                <input type="text" class="form-control" id="brand-id" placeholder="Enter brand Id" name="brand-id" maxlength="5" value="{{brand_data.brand_id}}" required>
+              </div>
+              <!-- brand status -->
+              <div class="form-group col-md-6">
+                <label for="inputStatus">Brand Status</label>
+                <select id="inputStatus" class="form-control" name="brand-status">
+                  {% if brand_data.brand_status == "Active" %}
+                  <option selected>Active</option>
+                  <option>UnActive</option>
+                  {% elif brand_data.brand_status == "UnActive" %}
+                  <option>Active</option>
+                  <option selected>UnActive</option>
+                  {% endif %}
+                </select>
+              </div>
+              </div>
+              <!-- brand name -->
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="brand-name">Brand name</label>
+                  <input type="text" class="form-control" id="brand-name" placeholder="Enter Brand name" name="brand-name" maxlength="30" value="{{brand_data.brand_name}}" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="brand-img-file">Upload Brand Image</label>
+                  <input type="file" class="form-control" id="brand-img-file" name='updated_brand_img' size=60">
+                </div>
+              </div>
+
+        </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-outline-success">
+                <img src="{{url_for('static', filename='app_default_icons/update.svg')}}" alt="Information" width="20" height="20" title="Update">
+                  Update</button>
+            </div>
+      </form>
+          </div>
+        </div>
+      </div>
+<!-- ==================== Edit Form Modal ================================ -->
+<!-- All Brand Data -->
+<div class="card-group detail-data-cards">
+  <!-- card 1 -->
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">General Information</h5>
+      <p class="card-text">
+        <table class="table table-dark table-hover">
+          <tr>
+            <th scope="col">Id</th>
+            <td>{{brand_data.brand_id}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Name</th>
+            <td>{{brand_data.brand_name}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Status</th>
+            <!-- if else to give color to working and closed stores -->
+                  {% if brand_data.brand_status == "Active" %}
+                  <td class="bg-success">{{brand_data.brand_status}}</td>
+
+                  {% elif brand_data.brand_status == "UnActive" %}
+                  <td class="bg-danger">{{brand_data.brand_status}}</td>
+
+                  {% endif %}
+            <!-- if else to give color to working and closed stores -->
+          </tr>
+          <tr>
+            <th scope="col">Total Brand Products</th>
+            <td>{{total_products}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Logo(Image)</th>
+            {% if brand_data.brand_img_url %}
+            <td class="bg-success">True</td>
+            {% else %}
+            <td class="bg-danger">False</td>
+            {% endif %}
+          </tr>
+        </table>
+      </p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">This Is General Information Of Brand : {{brand_data.brand_name}}</small>
+    </div>
+  </div>
+  <!-- card 1 -->
+
+  <!-- card 2 -->
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Logo(Image)</h5>
+      <p class="card-text image-div"">
+        {% set img_name = 'uploaded_images/' + brand_data.brand_img_url %}
+        <img src="{{url_for('static', filename=img_name)}}" alt="Brand Image" width="auto" height="250" title="Brand Image" id="brand-img">
+      </p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">Picture Of Brand : {{brand_data.brand_name}}</small>
+    </div>
+  </div>
+  <!-- card 2 -->
+  </div>
+  <!-- All brand data end here -->
+
+
+<div class="card data-table-card">
+<div class="card-body ">
+
+<table class="table table-hover table-bordered MyDataTables" style="width:100%">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Color</th>
+                <th>Buy Price</th>
+                <th>Sell Price</th>
+                <th>Quantity Remain</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for prod in brand_prods %}
+          <tr>
+            <td>{{prod.prod_id}}</td>
+            <td>{{prod.prod_name}}</td>
+            <td>{{prod.prod_color}}</td>
+            <td>{{prod.buy_price}}</td>
+            <td>{{prod.sell_price}}</td>
+            {% if prod.qty_remain <= 20 %}
+            <td class="bg-danger">{{prod.qty_remain}}</td>
+            {% else %}
+            <td class="bg-success">{{prod.qty_remain}}</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+  </table>
+</div>
+<div class="card-footer table-detail-footer">
+  <small class="text-muted">All Products Of {{brand_data.brand_name}}</small>
+</div>
+</div>
+{% endblock %}

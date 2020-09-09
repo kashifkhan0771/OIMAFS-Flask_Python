@@ -1,0 +1,137 @@
+{% extends "admin_layout.html" %}
+{% block body %}
+<div class="page-headings">
+  <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#new-message">
+    New Message
+  </button>
+</div>
+<br>
+
+<div class="card text-center table-cards">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Inbox</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/messages-sent/{{admin_data.admin_id}}">Sent</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <table class="MyManageTables">
+      <thead>
+        <tr>
+          <th scope="col">From</th>
+          <th scope="col">Subject</th>
+          <th scope="col">Send Date</th>
+          <th scope="col">Status</th>
+          <th scope="col" class="text-right">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop to show all stores in tables -->
+        {% for msg in messages %}
+        <tr>
+          <td>{{msg.message_from}}</td>
+          <td>{{msg.subject}}</td>
+          <td>{{msg.send_date}}</td>
+    <!-- if else to give color to working and closed stores -->
+          {% if msg.status == "Readed" %}
+          <td class="bg-success">{{msg.status}}</td>
+
+          {% elif msg.status == "UnRead" %}
+          <td class="bg-danger">{{msg.status}}</td>
+
+          {% endif %}
+    <!-- if else to give color to working and closed stores -->
+
+          <td class="text-right">
+            <a href="/read-message/{{msg.message_id}}">
+              <button class="btn btn-info" type="button">View Message</button>
+            </a>
+            <!-- id of delete modal is critical be like : 75--21-checked -->
+              <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delete-confirm-{{msg.sno}}">
+                Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+        <!-- loop end here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- delete message modal -->
+{% for msg in messages %}
+<div class="modal fade" id="delete-confirm-{{msg.sno}}" tabindex="-1" role="dialog" aria-labelledby="delete-confirm-Label" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="delete-confirm-Label">Delete This Message : {{msg.message_subject}}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+  </div>
+    <div class="modal-body">Deleting This Message Will Delete This Message From Anyone Who Is Linked With This Message.</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</ button>
+        <a href="/delete-message/{{msg.message_id}}">
+          <button type="button" class="btn btn-danger">Delete Anyway</button>
+        </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+<!-- delete message modal -->
+<!-- modal to send new messages -->
+<div class="modal fade" id="new-message" tabindex="-1" role="dialog" aria-labelledby="new-message-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="new-message-modal-title"><b>New Message</b></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+      <form action="#" method="post" enctype="multipart/form-data" class="was-validated">
+
+        <div class="modal-body">
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="msg-from">From</label>
+                <input type="text" class="form-control" id="msg-from" placeholder="Message From" name="msg-from" readonly value="{{admin_data.admin_id}}">
+              </div>
+              </div>
+              <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="sendto">Send To</label>
+                <select id="sendto" class="form-control selectsendto" name="msg-to" required>
+                  <option value="" selected>No Selected</option>
+                  {% for person in send_to_list %}
+                  <option value="{{person.user_id}}">{{person.user_name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              </div>
+              <!-- brand Name -->
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="subject">Subject</label>
+                  <input type="text" class="form-control" id="subject" placeholder="Enter Message Subject" name="msg-subject" required maxlength="30">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="message">Message</label>
+                  <textarea class="form-control" id="message" rows="2" placeholder="Enter Your Message Here" required name="msg-body" maxlength="160"></textarea>
+                </div>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-outline-success">Send</button>
+            </div>
+      </form>
+          </div>
+        </div>
+      </div>
+      <!-- modal send new message -->
+
+{%endblock%}

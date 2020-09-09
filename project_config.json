@@ -1,0 +1,15 @@
+{
+    "params":
+{
+    "application_secret_key": "qx2z9ce_@OIMAFS#",
+    "local_host": "true",
+    "local_host_uri": "mysql://root:@localhost/fyp_database",
+    "prod_uri": "mysql://root:@localhost/fyp_database",
+    "image_upload_folder_url": "D:\\University Data\\Final Year Project\\FYP Life Cycle\\Development\\Project\\static\\uploaded_images",
+    "mail-username": "kashifjadoon0771@gmail.com",
+    "mail-password": "incorrect.0771",
+    "invoice_save_folder": "D:\\University Data\\Final Year Project\\FYP Life Cycle\\Development\\Project\\static\\invoices\\",
+    "path_to_wkhtmltopdf": "C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
+}
+    
+}

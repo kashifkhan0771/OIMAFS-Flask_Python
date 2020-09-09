@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      {{page_data['page_title']}}
+    </title>
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/bootstrap.min.css")}}">
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/custom-login.css")}}">
+  </head>
+  <body>
+    <br>
+    <!-- Jinja Templating Statements for getting flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+
+    <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+      {% if category=="danger" %}
+      <img src="{{url_for('static', filename="app_default_icons/danger-alert.svg")}}" alt="Danger" width="30" height="22">
+      {{message}}
+      {% elif category == "success" %}
+      <img src="{{url_for('static', filename="app_default_icons/okay-alert.svg")}}" alt="Danger" width="30" height="22">
+        {{message}}
+        {% else %}
+        {{message}}
+        {% endif %}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+    {%endif%}
+    {% endwith %}
+    <!-- Flash messges end here  -->
+
+    {% block body%}
+
+
+    <!-- Content  -->
+
+
+    {% endblock %}
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/jquery-3.4.1.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/popper.min.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/bootstrap.min.js")}}"></script>
+  </body>
+</html>

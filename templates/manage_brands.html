@@ -1,0 +1,129 @@
+{% extends "admin_layout.html" %}
+{% block body%}
+<!-- Table heading with add button -->
+<div class="page-headings">
+  <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#add-new-brand">
+    Add New Brand
+  </button>
+</div>
+<br>
+<!-- Table heading with add button -->
+
+<!-- Add new brand form modal ================================== -->
+
+<div class="modal fade" id="add-new-brand" tabindex="-1" role="dialog" aria-labelledby="add-new-brand-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="add-new-brand-modal-title"><b>Add New Brand</b></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+      <!-- Form for new brand adding -->
+      <form action="#" method="post" enctype="multipart/form-data" class="was-validated">
+
+        <div class="modal-body">
+            <!-- brand id -->
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="brand-id">Brand Id</label>
+                <input type="text" class="form-control" id="brand-id" placeholder="Enter brand Id" name="brand-id" maxlength="5" required>
+              </div>
+              <!-- brand status -->
+              <div class="form-group col-md-6">
+                <label for="inputStatus">Brand Status</label>
+                <select id="inputStatus" class="form-control" name="brand-status">
+                  <option selected>Active</option>
+                  <option>UnActive</option>
+                </select>
+              </div>
+              </div>
+              <!-- brand Name -->
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="brand-Name">Brand Name</label>
+                  <input type="text" class="form-control" id="brand-Name" placeholder="Enter brand Name" name="brand-name" maxlength="35" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="brand-img-file">Upload Brand Image</label>
+                  <input type="file" class="form-control" id="brand-img-file" name='brand_img' size=60>
+                </div>
+              </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-outline-success">Save</button>
+            </div>
+      </form>
+<!-- Form for new brand adding -->
+          </div>
+        </div>
+      </div>
+<!-- Add new brand form modal ================================== -->
+
+<!-- Card for table -->
+<div class="card table-cards">
+  <div class="card-body">
+    <!-- Table to show brands -->
+    <table class="MyManageTables">
+      <thead>
+        <tr>
+          <th scope="col">Brand Id</th>
+          <th scope="col">Brand Name</th>
+          <th scope="col">Brand Status</th>
+          <th scope="col" class="text-right">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop to show all brands in tables -->
+        {% for brand in all_brands %}
+        <tr>
+          <td>{{brand.brand_id}}</td>
+          <td>{{brand.brand_name}}</td>
+    <!-- if else to give color to working and closed brands -->
+          {% if brand.brand_status == "Active" %}
+          <td class="bg-success">{{brand.brand_status}}</td>
+          {% elif brand.brand_status == "UnActive" %}
+          <td class="bg-danger">{{brand.brand_status}}</td>
+          {% endif %}
+    <!-- if else to give color to working and closed brands -->
+          <td class="text-right">
+            <a href="details-brand/{{brand.brand_id}}" role="button">
+              <button class="btn btn-info" type="button">View Details</button>
+            </a>
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delete-confirm-{{brand.brand_id}}">Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+        <!-- loop end here -->
+      </tbody>
+    </table>
+</div>
+<div class="card-footer table-detail-footer">
+  <small class="text-muted">All Brands Of Inventory</small>
+</div>
+</div>
+    {% for brand in all_brands %}
+    <div class="modal fade" id="delete-confirm-{{brand.brand_id}}" tabindex="-1" role="dialog" aria-labelledby="delete-confirm-Label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="delete-confirm-Label">Delete Brand : {{brand.brand_name}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+        <div class="modal-body">All Brand Details And Data Will Get Deleted</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</ button>
+            <a href="/delete-brand/{{brand.brand_id}}">
+              <button type="button" class="btn btn-danger">Delete Anyway</button>
+            </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    <!-- table end here -->
+
+{% endblock %}

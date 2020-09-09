@@ -1,0 +1,83 @@
+{% extends "user_layout.html" %}
+{% block body %}
+<div class="page-headings">
+  <a href="/messages-inbox/{{user_data.user_id}}">
+    <button class="btn btn-outline-secondary" type="button">
+      Back To Inbox
+    </button>
+  </a>
+</div>
+<br>
+<div class="card-group detail-data-cards">
+  <!-- card 1 -->
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Message</h5>
+      <p class="card-text">
+        <table class="table table-dark table-hover table-striped">
+          <tr>
+            <th scope="col">From</th>
+            <td>{{message.message_from}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Subject</th>
+            <td>{{message.subject}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Message</th>
+            <td>{{message.body}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Sended On</th>
+            <td>{{message.send_date}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Status</th>
+            <td class="bg-success">{{message.status}}</td>
+          </tr>
+        </table>
+      </p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">Message From : {{message.message_from}}</small>
+    </div>
+  </div>
+  </div>
+<!-- card 1 -->
+<!-- card 2 -->
+<div class="card-group detail-data-cards">
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Sender Information</h5>
+    <p class="card-text">
+      <table class="table table-dark table-hover table-striped">
+        <tr>
+          <th scope="col">Name</th>
+          <td>{{sender.admin_name}}</td>
+        </tr>
+        <tr>
+          <th scope="col">Gender</th>
+          <td>{{sender.admin_gender}}</td>
+        </tr>
+        <tr>
+          <th scope="col">Phone Number</th>
+          <td class="bg-danger">Sorry We Can't Share Some Information Of Admins</td>
+        </tr>
+        <tr>
+          <th scope="col">Email</th>
+          {% if sender.admin_email%}
+          <td class="bg-success">{{sender.admin_email}}</td>
+          {% else %}
+          <td class="bg-danger">No Email Provided</td>
+          {% endif %}
+        </tr>
+      </table>
+    </p>
+  </div>
+  <div class="card-footer">
+    <small class="text-muted">Message Sender Information</small>
+  </div>
+</div>
+</div>
+<!-- card 2 -->
+{% endblock %}

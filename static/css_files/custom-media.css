@@ -1,0 +1,44 @@
+/*media query*/
+@media (max-width: 1270px) {
+    #store_by_date_comparison{
+        width: 100%;
+    }
+    #profit_forecast{
+        width: 100%;
+    }
+    #sold_forecast{
+        width: 100%;
+    }
+    #next_5_days_profit{
+        width: 100%;
+    }
+    #prev_data_summary{
+        width: 100%;
+    }
+    #store_total_sold_line_chart{
+        width: 100%;
+    }
+    #store_profit_rev_chart{
+        width: 100%;
+    }
+    #prod_by_date_comparison{
+        width: 100%;
+    }
+    #product-total-sold-chart{
+        width: 100%;
+    }
+    #prod-img{
+        width:auto;
+    }
+    #brand-img{
+        width:100%;
+    }
+    #last_10_days_selling{
+        width: 100%;
+    }
+    .MyManageTables{
+        width: 100%;
+    }
+}
+
+/*media query*/

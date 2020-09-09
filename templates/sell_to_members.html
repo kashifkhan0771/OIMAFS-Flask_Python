@@ -1,0 +1,73 @@
+{% extends "user_layout.html" %}
+{% block body%}
+<br>
+<div class="user-forms">
+  <form action="#" name="sell-to-non-members" method="post" class="was-validated">
+    <!-- row 1 -->
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="membername">
+            <img src="{{url_for('static', filename='app_default_icons/buyer.svg')}}" alt="MemberName" width="32" height="24" title="Member Name">
+          </span>
+            <select id="inputStatus" class="form-control selectmember" name="member-name" aria-describedby="membername" required>
+              <option value="" selected>No Selected</option>
+              {% for member in members %}
+              <option value="{{member.member_name}}">{{member.member_name}}</option>
+              {% endfor %}
+            </select>
+        </div>
+      </div>
+
+    </div>
+    <!-- row 1 -->
+    <!-- row 2 -->
+    <div class="form-row">
+      <div class="form-group col-md-8">
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="prodname">
+          <img src="{{url_for('static', filename='app_default_icons/product_to_sell.svg')}}" alt="ProductName" width="32" height="24" title="Product Name">
+        </span>
+          <select id="inputStatus" class="form-control selectprod" name="prod-name" aria-describedby="prodname" required>
+            <option value="" selected>No Selected</option>
+            {% for prod in products %}
+            <option value="{{prod}}">{{prod}}</option>
+            {% endfor %}
+          </select>
+      </div>
+      <small id="prodname" class="form-text text-muted">
+        Select The Product From Here
+      </small>
+      </div>
+      <div class="form-group col-md-4">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="prodqty">
+              <img src="{{url_for('static', filename='app_default_icons/quantity2.svg')}}" alt="ProductQuantity" width="32" height="24" title="Quantity">
+            </span>
+          </div>
+          <input type="number" class="form-control" placeholder="Enter Product Quantity" aria-label="prodqty" aria-describedby="prodqty" maxlength="5" required name="prod-qty">
+        </div>
+        <small id="prodqty" class="form-text text-muted">
+          Enter Product Quantity
+        </small>
+      </div>
+    </div>
+    <hr>
+    <!-- row 2 -->
+    <div class="form-row">
+    <div class="form-group col-md-12">
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Sell The Product</button>
+    </div>
+    </div>
+    <div class="form-row">
+    <div class="form-group col-md-6">
+    <a href="/download-invoice/recent" class="btn btn-outline-dark btn-lg btn-block" role="button">Create Recent Invoice</a>
+    </div>
+    <div class="form-group col-md-6">
+    <button type="button" class="btn btn-outline-danger btn-lg btn-block" onclick="reset();">Clear</button>
+    </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

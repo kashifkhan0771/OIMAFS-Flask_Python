@@ -1,0 +1,154 @@
+{% extends "user_layout.html" %}
+{% block body %}
+<div class="page-headings">
+  <button class="btn btn-outline-danger" type="button" data-toggle="modal" data-target="#edit-profile">
+    Edit Profile
+  </button>
+</div>
+<br>
+<div class="card table-cards">
+  <div class="card-body">
+<table class="table table-striped table-dark table-hover">
+<tr>
+  <th>Name</th>
+  <td>{{profile_data.user_name}}</td>
+</tr>
+<tr>
+  <th>Gender</th>
+  <td>{{profile_data.user_gender}}</td>
+</tr>
+<tr>
+  <th>Email</th>
+  {% if profile_data.user_email %}
+  <td class="bg-success">{{profile_data.user_email}}</td>
+  {% else %}
+  <td class="bg-danger">No Email Provided</td>
+  {% endif %}
+</tr>
+<tr>
+  <th>Phone Number</th>
+  <td>{{profile_data.user_phno}}</td>
+</tr>
+<tr>
+  <th>Works In Store</th>
+  <td>{{profile_data.working_store_id}}</td>
+</tr>
+<tr>
+  <th>Hire Date</th>
+  <td>{{profile_data.user_hiredate}}</td>
+</tr>
+<tr>
+  <th>Address</th>
+  <td>{{profile_data.user_address}}</td>
+</tr>
+<tr>
+  <th>Status</th>
+  {% if profile_data.user_status == "Active" %}
+  <td class="bg-success">{{profile_data.user_status}}</td>
+  {% elif profile_data.user_status == "UnActive" %}
+  <td class="bg-danger">{{profile_data.user_status}}</td>
+  {% endif %}
+</tr>
+<tr>
+  <th>Id</th>
+  <td>{{profile_data.user_id}}</td>
+</tr>
+<tr>
+  <th>Password</th>
+  <td>{{profile_data.user_password}}</td>
+</tr>
+</table>
+</div>
+</div>
+<!-- edit profile modal -->
+<div class="modal fade" id="edit-profile" tabindex="-1" role="dialog" aria-labelledby="edit-profile-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="edit-profile-modal-title"><b>Edit Your Profile</b></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+      <!-- Form for new store adding -->
+      <form action="#" method="post" enctype="multipart/form-data" class="was-validated">
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="user-id">User Id</label>
+              <input type="text" class="form-control" id="user-id" placeholder="User Id" name="user-id" maxlength="20" required value="{{user_data.user_id}}" readonly>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="user-password">User Password</label>
+              <input type="text" class="form-control" id="user-password" placeholder="User Password" name="user-password" maxlength="20" required value="{{user_data.user_password}}">
+            </div>
+          </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="user-name">User Name</label>
+                <input type="text" class="form-control" id="user-name" placeholder="User Name" name="user-name" maxlength="50" required value="{{user_data.user_name}}">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="user-phno">User Phone Number</label>
+                <input type="text" class="form-control" id="user-phno" placeholder="User Phone Number" name="user-phno" maxlength="13" required value="{{user_data.user_phno}}">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="user-hiredate">User Hiring Date</label>
+                <input type="date" class="form-control" id="user-hiredate" name="user-hiredate" maxlength="13" required value="{{user_data.user_hiredate}}" readonly>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="user-gender">User Gender</label>
+                <select id="user-gender" class="form-control" name="user-gender">
+                  <!-- if else to get user-gender selected in ui already -->
+                  {%if user_data.user_gender == "Male"%}
+                  <option selected>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                  {%elif user_data.user_gender == "Female"%}
+                  <option>Male</option>
+                  <option selected>Female</option>
+                  <option>Other</option>
+                  {%else%}
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option selected>Other</option>
+                  {%endif%}
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="user-status">User Status</label>
+                <input type="text" class="form-control" id="user-status" name="user-status" required value="{{user_data.user_status}}" readonly>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="working-store-id">Works In Store</label>
+                <input type="text" class="form-control" id="working-store-id" name="working-store-id" maxlength="13" required value="{{user_data.working_store_id}}" readonly>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="user-email">User Email</label>
+                <input type="email" class="form-control" id="user-email" placeholder="User Email" name="user-email" maxlength="50" value="{{user_data.user_email}}">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="user-address">User Address</label>
+                <textarea class="form-control" id="user-address" rows="2" placeholder="Enter User Address" required name="user-address">{{user_data.user_address}}</textarea>
+              </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-outline-success">
+                    <img src="{{url_for('static', filename='app_default_icons/update.svg')}}" alt="Information" width="20" height="20" title="Update">
+                  Update</button>
+                </div>
+      </form>
+<!-- Form for new user adding -->
+          </div>
+        </div>
+        </div>
+{% endblock %}

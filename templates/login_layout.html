@@ -1,0 +1,55 @@
+<!--
+This is a layout file of login page that link all required css and javascript files
+ -->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      {{page_data['page_title']}}
+    </title>
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/bootstrap.min.css")}}">
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/custom-login.css")}}">
+  </head>
+  <body>
+    <br>
+    <!-- Jinja Templating Statements for getting flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+      {% if category == "success" %}
+      <img src="{{url_for('static', filename='app_default_icons/okay-alert.svg')}}" alt="Successfully Executed" width="45" height="35" title="Successfully Executed">
+      {% elif category == "info" %}
+      <img src="{{url_for('static', filename='app_default_icons/info-alert.svg')}}" alt="Information" width="45" height="35" title="Information">
+      {% elif category == "danger" %}
+      <img src="{{url_for('static', filename='app_default_icons/danger-alert.svg')}}" alt="Danger" width="45" height="35" title="Danger">
+      {% elif category == "warning" %}
+      <img src="{{url_for('static', filename='app_default_icons/warning-alert.svg')}}" alt="Warning" width="45" height="35" title="Warning">
+      {% endif %}
+        {{message}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+    {%endif%}
+    {% endwith %}
+    <!-- Flash messges end here  -->
+
+    {% block body%}
+
+
+    <!-- Content  -->
+
+
+    {% endblock %}
+    <footer>
+      <small> &copy; Department Of Informtion Technology, University Of Haripur&reg;</small>
+    </footer>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/jquery-3.4.1.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/popper.min.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/bootstrap.min.js")}}"></script>
+  </body>
+</html>

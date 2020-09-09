@@ -1,0 +1,173 @@
+<!-- Do not even dare to change a single line even do not reorder them leave as it is or else it's gonna mess up -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{page_data.page_title}}</title>
+    <!-- Linking css files -->
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/bootstrap.min.css")}}">
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/side_bar-custom.css")}}">
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/user-custom.css")}}">
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/jquery.dataTables.min.css")}}">
+    <link rel="stylesheet" href="{{url_for('static', filename="css_files/select2.min.css")}}">
+    <!-- /Linking css files -->
+    <!-- javascript files -->
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/jquery-3.4.1.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/popper.min.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/bootstrap.min.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/jquery.dataTables.min.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="js_files/select2.min.js")}}"></script>
+    <!-- javascript files -->
+  </head>
+  <body>
+    <div class="d-flex" id="wrapper">
+
+      <!-- Sidebar stars from here-->
+      <div class="bg-dark" id="sidebar-wrapper">
+        <div class="list-group list-group-flush">
+          <div class="sidebar-heading" title="Application Name">OIMAFS</div>
+          <!-- Side bar items starts from here -->
+          <a href="/user/{{user_data.user_id}}" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Dashboard</a>
+          <a href="/sell-to-members" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Sell To Members</a>
+          <a href="/sell-to-non-members" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Sell To Non-Members</a>
+          <a href="/view-brands" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">View Brands</a>
+          <a href="/view-products" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">View Products</a>
+          <a href="/view-members" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">View Members</a>
+          <a href="/view-invoices" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">View Invoices</a>
+          <a href="/messages-inbox/{{user_data.user_id}}" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Messages</a>
+          <a href="/profile" class="list-group-item list-group-item-action bg-dark side-bar-items-custom">Profile</a>
+        </div>
+      </div>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content starts from here-->
+      <div id="page-content-wrapper">
+        <!--Top nav bar starts from here  -->
+        <nav class="navbar navbar-expand-lg navbar-dark border-bottom custom-top-navbar">
+
+          <!-- Sidebar toggle button -->
+          <button class="btn btn-outline-dark" id="menu-toggle" title="Open/Close Sidebar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- Sidebar toggle button -->
+
+          <!-- button for mobile navigation view -->
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- button for mobile navigation view -->
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+              <!-- current user name and data -->
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#user-logout" title="Current User">
+                  <!-- user-modal Button -->
+                  <button type="button" name="button" class="btn btn-outline-primary">{{user_data.user_name}}</button>
+                  <!-- user-modal Button -->
+                </a>
+              </li>
+              <!-- current user name and data -->
+            </ul>
+          </div>
+        </nav>
+        <!-- top navbar ends -->
+
+        <!-- Logout Model Form -->
+        <div class="modal fade" id="user-logout" tabindex="-1" role="dialog" aria-labelledby="logout-modal-title" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="logout-modal-title">
+                  <b>
+                  {{user_data.user_name}} (User)
+                  </b>
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+              </div>
+                <div class="modal-body">
+                  <table cellpadding="5", cellspacing="5">
+                    <tr>
+                      <td>Gender : </td><td>{{user_data.user_gender}}</td>
+                    </tr>
+                    <tr>
+                      <td>User Email : </td><td>{{user_data.user_email}}</td>
+                    </tr>
+                    <tr>
+                      <td>User PhNo : </td><td>{{user_data.user_phno}}</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                    <a href="/logout" class="logout-button-link"><button type="button" class="btn btn-outline-danger">LogOut</button></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        <!-- Logout Model Form ends here-->
+        <!-- =================== -->
+        <!-- Table heading with add button -->
+        <div class="page-headings">
+          <h2>{{page_data["page_heading"]}}</h2>
+        </div>
+        <hr>
+        <!-- Table heading with add button -->
+
+        <!-- Jinja Templating Statements for getting flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+          {% if category == "success" %}
+          <img src="{{url_for('static', filename='app_default_icons/okay-alert.svg')}}" alt="Successfully Executed" width="45" height="35" title="Successfully Executed">
+          {% elif category == "info" %}
+          <img src="{{url_for('static', filename='app_default_icons/info-alert.svg')}}" alt="Information" width="45" height="35" title="Information">
+          {% elif category == "danger" %}
+          <img src="{{url_for('static', filename='app_default_icons/danger-alert.svg')}}" alt="Danger" width="45" height="35" title="Danger">
+          {% elif category == "warning" %}
+          <img src="{{url_for('static', filename='app_default_icons/warning-alert.svg')}}" alt="Warning" width="45" height="35" title="Warning">
+          {% endif %}
+            {{message}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+        {%endif%}
+        {% endwith %}
+        {% block body %}
+
+        <!-- All other pages content starts from here which extends this as a layout -->
+
+        {% endblock %}
+        <!-- ==================== -->
+      </div>
+      <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <script>
+      //     <!-- jquery for sidebar toggle button -->
+      $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+      });
+      $(document).ready(function() {
+          $('.MyViewTables').DataTable( {
+            "searching": true,
+            "ordering": false,
+            "pagingType": "full_numbers",
+            "lengthMenu": false,
+            "lengthMenu": [[5, 15, 50, -1], [5, 15, 50, "All"]]
+          } );
+      } );
+      $('.selectprod').select2();
+      $('.selectsendto').select2();
+      //     <!-- jquery for sidebar toggle button -->
+    </script>
+    <!-- Manual Script -->
+  </body>
+</html>

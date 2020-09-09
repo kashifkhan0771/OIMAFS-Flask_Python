@@ -1,0 +1,35 @@
+{% extends "user_layout.html" %}
+{% block body%}
+
+<div class="card table-cards">
+  <div class="card-body">
+    <!-- Table to show brands -->
+    <table class="MyViewTables">
+      <thead>
+        <tr>
+          <th scope="col">Brand Id</th>
+          <th scope="col">Brand Name</th>
+          <th scope="col">Brand Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop to show all brands in tables -->
+        {% for brand in all_brands %}
+        <tr>
+          <td>{{brand.brand_id}}</td>
+          <td>{{brand.brand_name}}</td>
+    <!-- if else to give color to working and closed brands -->
+          {% if brand.brand_status == "Active" %}
+          <td class="bg-success">{{brand.brand_status}}</td>
+          {% elif brand.brand_status == "UnActive" %}
+          <td class="bg-danger">{{brand.brand_status}}</td>
+          {% endif %}
+    <!-- if else to give color to working and closed brands -->
+        </tr>
+        {% endfor %}
+        <!-- loop end here -->
+      </tbody>
+    </table>
+</div>
+</div>
+{% endblock %}

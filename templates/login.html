@@ -1,0 +1,39 @@
+{% extends "login_layout.html" %}
+{% block body%}
+<div class="login-custom" style="width: auto;">
+  <form class="text-center" action="/" method="post">
+
+  <div class="card-header">
+    <h1>Application Login</h1>
+  </div>
+  <div class="card-body">
+    <!-- User Name -->
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="username">
+          <img src="{{url_for('static', filename='app_default_icons/user.svg')}}" alt="UserName" width="32" height="24" title="UserName">
+        </span>
+      </div>
+      <input type="text" class="form-control" placeholder="Enter Username Here" aria-label="Username" aria-describedby="username" name="entered-username" maxlength="20">
+    </div>
+    <!-- User Name -->
+    <!-- Password -->
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="password">
+          <img src="{{url_for('static', filename='app_default_icons/lock.svg')}}" alt="UserName" width="32" height="24" title="Password">
+        </span>
+      </div>
+      <input type="password" class="form-control" placeholder="Enter Your Password" aria-label="Password" aria-describedby="password" name="entered-password" maxlength="20">
+    </div>
+    <!-- Password -->
+    <!-- foget password -->
+    <a href="/forget-identity" class="card-link" title="Reset Password">Forgot Password</a>
+    <!-- foget password -->
+  </div>
+  <div class="card-footer">
+    <button type="submit" class="btn btn-primary btn-lg btn-block" title="LogIn To Application">LogIn</button>
+  </div>
+  </form>
+  </div>
+{% endblock %}

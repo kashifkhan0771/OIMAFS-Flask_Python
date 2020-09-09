@@ -1,0 +1,75 @@
+
+body {
+  overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+  min-height: 100vh;
+  margin-left: -15rem;
+  -webkit-transition: margin .25s ease-out;
+  -moz-transition: margin .25s ease-out;
+  -o-transition: margin .25s ease-out;
+  transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 2rem;
+  background-color: #232323;
+}
+
+#sidebar-wrapper .list-group {
+  /* to fix sidebar */
+  position: sticky;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  /* to fix sidebar */
+  width: 15rem;
+}
+
+#page-content-wrapper {
+  min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: 0;
+}
+
+@media (min-width: 768px) {
+  #sidebar-wrapper {
+    margin-left: 0;
+  }
+
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -15rem;
+  }
+}
+
+.sidebar-heading{
+    height:70px;
+    font-family: timesnewroman;
+    text-align: center;
+    color:white;
+}
+.side-bar-items-custom{
+    color:white;
+}
+.side-bar-items-custom:hover{
+    color:white;
+}
+.custom-top-navbar{
+    background-color: #232323;
+    /* to fix top nav bar */
+    position: sticky;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    /* to fix top nav bar */
+}

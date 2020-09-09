@@ -1,0 +1,132 @@
+{% extends "admin_layout.html" %}
+{% block body%}
+<!-- Table heading with add button -->
+<div class="page-headings">
+  <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#add-new-member">
+    Add New Member
+  </button>
+</div>
+<br>
+
+<!-- Add new store form modal ================================== -->
+
+<div class="modal fade" id="add-new-member" tabindex="-1" role="dialog" aria-labelledby="add-new-member-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="add-new-member-modal-title"><b>Add New Member</b></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+      <!-- Form for new store adding -->
+      <form action="#" method="post" enctype="multipart/form-data" class="was-validated">
+
+        <div class="modal-body">
+            <!-- member id -->
+            <div class="form-row">
+              <div class="form-group col-md-5">
+                <label for="member-id">Member Id</label>
+                <input type="text" class="form-control" id="member-id" placeholder="Enter Member Id" name="member-id" maxlength="5" required>
+              </div>
+              <!-- member phno -->
+              <div class="form-group col-md-7">
+                  <label for="member-phno">Phone Number</label>
+                  <input type="text" class="form-control" id="member-phno" placeholder="Enter Member Phone Number" name="member-phno" maxlength="12" required>
+              </div>
+              </div>
+              <!-- member name -->
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="member-name">Member Name</label>
+                  <input type="text" class="form-control" id="member-name" placeholder="Enter Member Name" name="member-name" maxlength="60" required>
+                </div>
+              </div>
+              <!-- member email -->
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="member-email">Member Email</label>
+                  <input type="email" class="form-control" id="member-email" placeholder="Enter Member Email" name="member-email" maxlength="60">
+                </div>
+              </div>
+              <!-- member address -->
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="member-address">Member Address</label>
+                  <textarea class="form-control" id="member-address" rows="3" placeholder="Enter Member Address" required name="member-address"></textarea>
+                </div>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-outline-success">Save</button>
+            </div>
+      </form>
+<!-- Form for new store adding -->
+          </div>
+        </div>
+      </div>
+<!-- Add new member form modal ================================== -->
+
+<!-- Card for table -->
+<div class="card table-cards">
+  <div class="card-body">
+    <!-- Table to show memebers -->
+    <table class="MyManageTables">
+      <thead>
+        <tr>
+          <th scope="col">Member Id</th>
+          <th scope="col">Member Name</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Membership Date</th>
+          <th scope="col" class="text-right">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop to show all members in tables -->
+        {% for data in members_data %}
+
+        <tr>
+
+          <td>{{data.member_id}}</td>
+          <td>{{data.member_name}}</td>
+          <td>{{data.member_phno}}</td>
+          <td>{{data.date_of_membership}}</td>
+          <td class="text-right">
+            <a href="details-member/{{data.member_id}}">
+              <button class="btn btn-info" type="button">View Details</button>
+            </a>
+              <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delete-confirm-{{data.member_id}}">Cancel Membership</button>
+          </td>
+        </tr>
+
+        {% endfor %}
+        <!-- loop end here -->
+      </tbody>
+    </table>
+
+    {% for data in members_data%}
+    <div class="modal fade" id="delete-confirm-{{data.member_id}}" tabindex="-1" role="dialog" aria-labelledby="delete-confirm-Label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="delete-confirm-Label">Cancel the Membership Of {{data.member_name}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+        <div class="modal-body">This Members All Data And Details Will Be Deleted</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</ button>
+            <a href="/delete-member/{{data.member_id}}">
+              <button type="button" class="btn btn-danger">Delete Membership</button>
+            </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    <!-- table end here -->
+  </div>
+  <div class="card-footer table-detail-footer">
+    <small class="text-muted">All Members Of Inventory</small>
+  </div>
+</div>
+
+{% endblock %}

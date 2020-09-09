@@ -1,0 +1,108 @@
+{% extends "admin_layout.html" %}
+{% block body %}
+<div class="page-headings">
+  <button class="btn btn-outline-danger" type="button" data-toggle="modal" data-target="#edit-profile">
+    Edit Profile
+  </button>
+</div>
+<br>
+<div class="card table-cards">
+  <div class="card-body">
+<table class="table table-striped table-dark table-hover">
+<tr>
+  <th>Name</th>
+  <td>{{profile_data.admin_name}}</td>
+</tr>
+<tr>
+  <th>Gender</th>
+  <td>{{profile_data.admin_gender}}</td>
+</tr>
+<tr>
+  <th>Email</th>
+  <td>{{profile_data.admin_email}}</td>
+</tr>
+<tr>
+  <th>Phone Number</th>
+  <td>{{profile_data.admin_phno}}</td>
+</tr>
+<tr>
+  <th>Id</th>
+  <td>{{profile_data.admin_id}}</td>
+</tr>
+<tr>
+  <th>Password</th>
+  <td>{{profile_data.admin_password}}</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="modal fade" id="edit-profile" tabindex="-1" role="dialog" aria-labelledby="edit-profile-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="edit-profile-modal-title"><b>Edit Your Profile</b></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+<form action="#" method="post" enctype="multipart/form-data" class="was-validated">
+
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="user-id">Admin Id</label>
+        <input type="text" class="form-control" id="user-id" placeholder="User Id" name="user-id" maxlength="20" required value="{{admin_data.admin_id}}" readonly>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="user-password">Admin Password</label>
+        <input type="text" class="form-control" id="user-password" placeholder="User Password" name="user-password" maxlength="20" required value="{{admin_data.admin_password}}">
+      </div>
+    </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="user-name">Admin Name</label>
+          <input type="text" class="form-control" id="user-name" placeholder="User Name" name="user-name" maxlength="50" required value="{{admin_data.admin_name}}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <label for="user-phno">Admin Phone Number</label>
+          <input type="text" class="form-control" id="user-phno" placeholder="User Phone Number" name="user-phno" maxlength="13" required value="{{admin_data.admin_phno}}">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="user-gender">Admin Gender</label>
+          <select id="user-gender" class="form-control" name="user-gender">
+            <!-- if else to get user-gender selected in ui already -->
+            {%if admin_data.admin_gender == "Male"%}
+            <option selected>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+            {%elif admin_data.admin_gender == "Female"%}
+            <option>Male</option>
+            <option selected>Female</option>
+            <option>Other</option>
+            {%else%}
+            <option>Male</option>
+            <option>Female</option>
+            <option selected>Other</option>
+            {%endif%}
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="user-email">Admin Email</label>
+          <input type="email" class="form-control" id="user-email" placeholder="User Email" name="user-email" maxlength="50" value="{{admin_data.admin_email}}" required>
+        </div>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-outline-success">
+              <img src="{{url_for('static', filename='app_default_icons/update.svg')}}" alt="Information" width="20" height="20" title="Update">
+            Update</button>
+          </div>
+</form>
+<!-- Form for new user adding -->
+    </div>
+  </div>
+  </div>
+{% endblock %}

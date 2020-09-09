@@ -1,0 +1,41 @@
+{% extends "user_layout.html" %}
+{% block body%}
+<div class="card table-cards">
+  <div class="card-body">
+    <!-- Table to show invoices -->
+    <table class="MyViewTables">
+      <thead>
+        <tr>
+          <th scope="col">Date Of Invoice</th>
+          <th scope="col">Buyer Name</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Paid Amount</th>
+          <th scope="col" class="text-right">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for invoice in all_invoices %}
+        <tr>
+          <td>{{invoice.date}}</td>
+          {%if invoice.buyer_type == "Member" %}
+          <td class="bg-success">{{invoice.buyer}}</td>
+          {%else%}
+          <td class="bg-danger">{{invoice.buyer}}</td>
+          {%endif%}
+          <td>{{invoice.prod_name}}</td>
+          <td>{{invoice.qty}}</td>
+          <td>{{invoice.paid_amount}}</td>
+          <td class="text-right">
+            <a href="download-invoice/{{invoice.sno}}">
+              <button class="btn btn-outline-warning" type="button">Create Invoice</button>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+        <!-- loop end here -->
+      </tbody>
+    </table>
+    </div>
+    </div>
+{%endblock%}

@@ -1,0 +1,70 @@
+{% extends "admin_layout.html" %}
+{% block body %}
+<div class="card table-cards">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Reports Draft</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/store-report">Generate Store Report</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/product-report">Generate Product Report</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <table class="MyManageTables">
+      <thead>
+        <tr>
+          <th scope="col">Report Generated On</th>
+          <th scope="col">Report Of Date</th>
+          <th scope="col">Type</th>
+          <th scope="col">Report Of</th>
+          <th scope="col" class="text-right">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop to show all stores in tables -->
+        {% for report in all_reports %}
+        <tr>
+          <td>{{report.gen_on}}</td>
+          <td>{{report.report_of_date}}</td>
+          <td>{{report.type_of}}</td>
+          <td>{{report.report_of}}</td>
+          <td class="text-right">
+            <a href="/download-report/{{report.sno}}">
+              <button class="btn btn-info" type="button">View Report</button>
+            </a>
+              <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delete-confirm-{{report.sno}}">
+                Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+        <!-- loop end here -->
+      </tbody>
+    </table>
+  </div>
+  </div>
+  {% for report in all_reports %}
+  <div class="modal fade" id="delete-confirm-{{report.sno}}" tabindex="-1" role="dialog" aria-labelledby="delete-confirm-Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="delete-confirm-Label">Delete This Report</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+    </div>
+      <div class="modal-body">This Report Data Will Get Deleted Permenently. Are Your Sure ?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</ button>
+          <a href="/delete-report/{{report.sno}}">
+            <button type="button" class="btn btn-danger">Delete Report</button>
+          </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+{% endblock %}

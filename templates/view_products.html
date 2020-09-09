@@ -1,0 +1,44 @@
+{% extends "user_layout.html" %}
+{% block body%}
+<div class="card table-cards">
+  <div class="card-body">
+    <!-- Table to show products -->
+    <table class="MyViewTables">
+      <thead>
+        <tr>
+          <th scope="col">Product Id</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Product Color</th>
+          <th scope="col">Product Brand</th>
+          <th scope="col">Units InHand</th>
+          <th scope="col">Sell Price</th>
+          <th scope="col">Discount Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop to show all brands in tables -->
+        {% for product in all_products %}
+        <tr>
+          <td>{{product.prod_id}}</td>
+          <td>{{product.prod_name}}</td>
+          <td>{{product.prod_color}}</td>
+          <td>{{product.prod_brand}}</td>
+          <!-- if condition  -->
+          {% if product.qty_remain > 20 %}
+          <td class="bg-success">{{product.qty_remain}}</td>
+          {% elif product.qty_remain <= 20%}
+          <td class="bg-danger">{{product.qty_remain}}</td>
+          {% else %}
+          <td>{{product.qty_remain}}</td>
+          {% endif %}
+          <!-- if condition  -->
+          <td>{{product.sell_price}}</td>
+          <td>{{product.discount_price}}</td>
+        </tr>
+        {% endfor %}
+        <!-- loop end here -->
+      </tbody>
+    </table>
+    </div>
+    </div>
+  {%endblock%}

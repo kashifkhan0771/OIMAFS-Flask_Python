@@ -1,0 +1,166 @@
+{% extends "admin_layout.html" %}
+{% block body%}
+<div class="page-headings">
+  <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#add-new-user">
+    Create New User
+  </button>
+</div>
+<br>
+<!-- Add new user form modal ================================== -->
+
+<div class="modal fade" id="add-new-user" tabindex="-1" role="dialog" aria-labelledby="add-new-user-modal-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="add-new-user-modal-title"><b>Add New User</b></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+      </div>
+      <!-- Form for new store adding -->
+      <form action="#" method="post" enctype="multipart/form-data" class="was-validated">
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="user-id">User Id</label>
+              <input type="text" class="form-control" id="user-id" placeholder="User Id" name="user-id" maxlength="20" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="user-password">User Password</label>
+              <input type="text" class="form-control" id="user-password" placeholder="User Password" name="user-password" maxlength="20" required>
+            </div>
+          </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="user-name">User Name</label>
+                <input type="text" class="form-control" id="user-name" placeholder="User Name" name="user-name" maxlength="50" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="user-phno">User Phone Number</label>
+                <input type="text" class="form-control" id="user-phno" placeholder="User Phone Number" name="user-phno" maxlength="13" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="user-hiredate">User Hiring Date</label>
+                <input type="date" class="form-control" id="user-hiredate" name="user-hiredate" maxlength="13" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="user-gender">User Gender</label>
+                <select id="user-gender" class="form-control" name="user-gender">
+                  <option selected>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="user-status">User Status</label>
+                <select id="user-status" class="form-control" name="user-status">
+                  <option selected>Active</option>
+                  <option>UnActive</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="working-store-id">Works In Store</label>
+                <select id="working-store-id" class="form-control" name="working-store-id">
+                  {%for store in all_stores%}
+                  <option value="{{store.store_id}}">{{store.store_id}}</option>
+                  {%endfor%}
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="user-email">User Email</label>
+                <input type="email" class="form-control" id="user-email" placeholder="User Email" name="user-email" maxlength="50">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="user-address">User Address</label>
+                <textarea class="form-control" id="user-address" rows="2" placeholder="Enter User Address" required name="user-address"></textarea>
+              </div>
+            </div>
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-outline-success">Save</button>
+            </div>
+      </form>
+<!-- Form for new user adding -->
+          </div>
+        </div>
+      </div>
+<!-- Add new store form modal ================================== -->
+
+<!-- table to show data of users -->
+<div class="card table-cards">
+  <div class="card-body">
+    <table class="MyManageTables">
+      <thead>
+        <tr>
+          <th scope="col">User Id</th>
+          <th scope="col">User Name</th>
+          <th scope="col">Gender</th>
+          <th scope="col">Status</th>
+          <th scope="col">Mobile Number</th>
+          <th scope="col">Hire Date</th>
+          <th scope="col" class="text-right">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop to show all user in tables -->
+        {% for user in all_users %}
+
+        <tr>
+
+          <td>{{user.user_id}}</td>
+          <td>{{user.user_name}}</td>
+          <td>{{user.user_gender}}</td>
+    <!-- if else to give color to active and unactive users -->
+          {% if user.user_status == "Active" %}
+          <td class="bg-success">{{user.user_status}}</td>
+          {% elif user.user_status == "UnActive" %}
+          <td class="bg-danger">{{user.user_status}}</td>
+          {% endif %}
+    <!-- if else to give color to active and unactive users -->
+          <td>{{user.user_phno}}</td>
+          <td>{{user.user_hiredate}}</td>
+          <td class="text-right">
+            <a href="details-user/{{user.user_id}}">
+              <button class="btn btn-info" type="button">View Details</button>
+            </a>
+              <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delete-confirm-{{user.user_id}}">Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+        <!-- loop end here -->
+      </tbody>
+    </table>
+</div>
+<div class="card-footer table-detail-footer">
+  <small class="text-muted">All Users Of Application</small>
+</div>
+</div>
+<!-- delete modal -->
+{% for user in all_users %}
+<div class="modal fade" id="delete-confirm-{{user.user_id}}" tabindex="-1" role="dialog" aria-labelledby="delete-confirm-Label" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="delete-confirm-Label">Delete User : {{user.user_name}}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+  </div>
+    <div class="modal-body">All User Details And Data Will Get Deleted</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</ button>
+        <a href="/delete-user/{{user.user_id}}">
+          <button type="button" class="btn btn-danger">Delete Anyway</button>
+        </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{%endblock%}
