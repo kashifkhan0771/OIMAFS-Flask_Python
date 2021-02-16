@@ -1,1 +1,1 @@
-# OIMAFS-Flask_Python
+Online Inventory Management System Fully Developed in Flask - Python.
